@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CulinaryAI — Your Ultimate Cooking Companion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
+
+  <!-- ═══════════════ SPLASH SCREEN ═══════════════ -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+      <div class="splash-logo-container">
+        <span class="logo-icon splash-icon">🍽️</span>
+        <span class="logo-text splash-text">Culinary<span class="logo-accent">AI</span></span>
+      </div>
+      <div class="splash-spinner"></div>
+      <p class="splash-tagline">Preparing your virtual kitchen...</p>
+    </div>
+  </div>
 
   <!-- ═══════════════ NAVIGATION ═══════════════ -->
   <nav class="navbar" id="navbar">
@@ -74,7 +90,8 @@
       <div class="hero-search-wrapper">
         <div class="hero-search">
           <span class="search-icon">🔍</span>
-          <input type="text" id="heroSearch" placeholder="Search recipes, ingredients, cuisines..." data-i18n-placeholder="search_ph" autocomplete="off" />
+          <input type="text" id="heroSearch" placeholder="Search recipes, ingredients, cuisines..."
+            data-i18n-placeholder="search_ph" autocomplete="off" />
           <button class="search-btn" onclick="performSearch()">Search</button>
         </div>
         <div class="search-suggestions" id="searchSuggestions"></div>
@@ -109,7 +126,8 @@
       <div class="section-header">
         <span class="section-badge">World Kitchen</span>
         <h2 class="section-title">Explore Global Cuisines</h2>
-        <p class="section-subtitle">From the spice markets of India to the night markets of Myanmar — every flavor, every culture</p>
+        <p class="section-subtitle">From the spice markets of India to the night markets of Myanmar — every flavor,
+          every culture</p>
       </div>
       <div class="cuisines-grid">
         <div class="cuisine-card" data-cuisine="indian" onclick="filterByCuisine('indian')">
@@ -228,7 +246,8 @@
         <button class="filter-btn" data-filter="indian" onclick="filterRecipes('indian', this)">Indian</button>
         <button class="filter-btn" data-filter="chinese" onclick="filterRecipes('chinese', this)">Chinese</button>
         <button class="filter-btn" data-filter="thai" onclick="filterRecipes('thai', this)">Thai</button>
-        <button class="filter-btn" data-filter="vietnamese" onclick="filterRecipes('vietnamese', this)">Vietnamese</button>
+        <button class="filter-btn" data-filter="vietnamese"
+          onclick="filterRecipes('vietnamese', this)">Vietnamese</button>
         <button class="filter-btn" data-filter="korean" onclick="filterRecipes('korean', this)">🇰🇷 Korean</button>
         <button class="filter-btn" data-filter="myanmar" onclick="filterRecipes('myanmar', this)">Myanmar</button>
         <button class="filter-btn" data-filter="bakery" onclick="filterRecipes('bakery', this)">Bakery</button>
@@ -236,16 +255,24 @@
       </div>
       <!-- Cooking Style Filter Row -->
       <div class="style-filters">
-        <button class="style-filter-btn active" data-style="all" onclick="filterByStyle('all', this)">All Methods</button>
+        <button class="style-filter-btn active" data-style="all" onclick="filterByStyle('all', this)">All
+          Methods</button>
         <button class="style-filter-btn" data-style="quick" onclick="filterByStyle('quick', this)">⚡ Quick</button>
-        <button class="style-filter-btn" data-style="one-pan" onclick="filterByStyle('one-pan', this)">🍳 One-Pan</button>
-        <button class="style-filter-btn" data-style="stir-fry" onclick="filterByStyle('stir-fry', this)">🥢 Stir-Fry</button>
-        <button class="style-filter-btn" data-style="grilled" onclick="filterByStyle('grilled', this)">🔥 Grilled</button>
-        <button class="style-filter-btn" data-style="no-cook" onclick="filterByStyle('no-cook', this)">🥗 No-Cook</button>
+        <button class="style-filter-btn" data-style="one-pan" onclick="filterByStyle('one-pan', this)">🍳
+          One-Pan</button>
+        <button class="style-filter-btn" data-style="stir-fry" onclick="filterByStyle('stir-fry', this)">🥢
+          Stir-Fry</button>
+        <button class="style-filter-btn" data-style="grilled" onclick="filterByStyle('grilled', this)">🔥
+          Grilled</button>
+        <button class="style-filter-btn" data-style="no-cook" onclick="filterByStyle('no-cook', this)">🥗
+          No-Cook</button>
         <button class="style-filter-btn" data-style="baked" onclick="filterByStyle('baked', this)">🫓 Baked</button>
-        <button class="style-filter-btn" data-style="slow-cooked" onclick="filterByStyle('slow-cooked', this)">🫕 Slow-Cooked</button>
-        <button class="style-filter-btn" data-style="steamed" onclick="filterByStyle('steamed', this)">🥟 Steamed</button>
-        <button class="style-filter-btn" data-style="deep-fried" onclick="filterByStyle('deep-fried', this)">🍟 Deep-Fried</button>
+        <button class="style-filter-btn" data-style="slow-cooked" onclick="filterByStyle('slow-cooked', this)">🫕
+          Slow-Cooked</button>
+        <button class="style-filter-btn" data-style="steamed" onclick="filterByStyle('steamed', this)">🥟
+          Steamed</button>
+        <button class="style-filter-btn" data-style="deep-fried" onclick="filterByStyle('deep-fried', this)">🍟
+          Deep-Fried</button>
       </div>
       <div class="recipes-grid" id="recipesGrid"></div>
       <div class="load-more-wrapper">
@@ -260,8 +287,9 @@
       <div class="ai-section-inner">
         <div class="ai-section-left">
           <span class="section-badge">AI Powered</span>
-          <h2 class="section-title" style="color: white;">Your Personal AI <br/>Chef, Always Ready</h2>
-          <p class="ai-section-desc">Ask anything about cooking — from ingredient substitutions to complex techniques. Our AI chef has mastered every cuisine in our collection and is available 24/7.</p>
+          <h2 class="section-title" style="color: white;">Your Personal AI <br />Chef, Always Ready</h2>
+          <p class="ai-section-desc">Ask anything about cooking — from ingredient substitutions to complex techniques.
+            Our AI chef has mastered every cuisine in our collection and is available 24/7.</p>
           <ul class="ai-features-list">
             <li>🥄 Recipe suggestions based on what you have</li>
             <li>⚖️ Instant measurement conversions</li>
@@ -285,19 +313,23 @@
             </div>
             <div class="ai-demo-messages">
               <div class="demo-msg ai-msg">
-                <p>Hello! I'm your AI Chef. What would you like to cook today? I can suggest recipes, help with techniques, or convert measurements!</p>
+                <p>Hello! I'm your AI Chef. What would you like to cook today? I can suggest recipes, help with
+                  techniques, or convert measurements!</p>
               </div>
               <div class="demo-msg user-msg">
                 <p>I have chicken, coconut milk, and lemongrass. What can I make?</p>
               </div>
               <div class="demo-msg ai-msg">
-                <p>Perfect ingredients for a <strong>Thai Green Curry</strong> or <strong>Vietnamese Coconut Chicken Soup</strong>! 🌿 The lemongrass adds beautiful citrus notes. Want the full recipe with step-by-step instructions?</p>
+                <p>Perfect ingredients for a <strong>Thai Green Curry</strong> or <strong>Vietnamese Coconut Chicken
+                    Soup</strong>! 🌿 The lemongrass adds beautiful citrus notes. Want the full recipe with step-by-step
+                  instructions?</p>
               </div>
               <div class="demo-msg user-msg">
                 <p>Yes! Also, can you substitute fish sauce?</p>
               </div>
               <div class="demo-msg ai-msg typing" id="demoTyping">
-                <p>Great choice! For fish sauce, use <strong>soy sauce + a squeeze of lime</strong> (1:1 ratio) or <strong>Worcestershire sauce</strong>. Here's your Thai Green Curry recipe... 🍛</p>
+                <p>Great choice! For fish sauce, use <strong>soy sauce + a squeeze of lime</strong> (1:1 ratio) or
+                  <strong>Worcestershire sauce</strong>. Here's your Thai Green Curry recipe... 🍛</p>
               </div>
             </div>
             <div class="ai-demo-input">
@@ -401,8 +433,8 @@
             <div class="timer-ring" id="timerRing">
               <svg viewBox="0 0 200 200">
                 <circle class="ring-bg" cx="100" cy="100" r="90" />
-                <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90"
-                  stroke-dasharray="565.49" stroke-dashoffset="0" />
+                <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90" stroke-dasharray="565.49"
+                  stroke-dashoffset="0" />
               </svg>
               <div class="timer-display">
                 <div class="timer-time" id="timerDisplay">00:00</div>
@@ -413,12 +445,18 @@
           <div class="timer-presets">
             <h4>Quick Presets</h4>
             <div class="preset-grid">
-              <button class="preset-btn" onclick="setTimer(3, 'Boiling Eggs (Soft)')">🥚 Soft Egg<br/><small>3 min</small></button>
-              <button class="preset-btn" onclick="setTimer(6, 'Boiling Eggs (Medium)')">🥚 Medium Egg<br/><small>6 min</small></button>
-              <button class="preset-btn" onclick="setTimer(10, 'Pasta Al Dente')">🍝 Pasta<br/><small>10 min</small></button>
-              <button class="preset-btn" onclick="setTimer(15, 'Rice (White)')">🍚 White Rice<br/><small>15 min</small></button>
-              <button class="preset-btn" onclick="setTimer(25, 'Brown Rice')">🍚 Brown Rice<br/><small>25 min</small></button>
-              <button class="preset-btn" onclick="setTimer(45, 'Roast Chicken')">🍗 Roast Chicken<br/><small>45 min</small></button>
+              <button class="preset-btn" onclick="setTimer(3, 'Boiling Eggs (Soft)')">🥚 Soft Egg<br /><small>3
+                  min</small></button>
+              <button class="preset-btn" onclick="setTimer(6, 'Boiling Eggs (Medium)')">🥚 Medium Egg<br /><small>6
+                  min</small></button>
+              <button class="preset-btn" onclick="setTimer(10, 'Pasta Al Dente')">🍝 Pasta<br /><small>10
+                  min</small></button>
+              <button class="preset-btn" onclick="setTimer(15, 'Rice (White)')">🍚 White Rice<br /><small>15
+                  min</small></button>
+              <button class="preset-btn" onclick="setTimer(25, 'Brown Rice')">🍚 Brown Rice<br /><small>25
+                  min</small></button>
+              <button class="preset-btn" onclick="setTimer(45, 'Roast Chicken')">🍗 Roast Chicken<br /><small>45
+                  min</small></button>
             </div>
           </div>
           <div class="timer-custom">
@@ -452,7 +490,8 @@
       <!-- Substitutions -->
       <div class="tool-panel" id="tool-substitution">
         <div class="sub-search">
-          <input type="text" id="subSearch" placeholder="Search ingredient to substitute (e.g. butter, eggs, milk)..." oninput="searchSubstitutions()" />
+          <input type="text" id="subSearch" placeholder="Search ingredient to substitute (e.g. butter, eggs, milk)..."
+            oninput="searchSubstitutions()" />
         </div>
         <div class="sub-grid" id="subGrid"></div>
       </div>
@@ -489,9 +528,16 @@
               <div class="ingredient-row">
                 <input type="number" class="ing-amount" value="2" step="0.25" />
                 <select class="ing-unit">
-                  <option>cups</option><option>tbsp</option><option>tsp</option>
-                  <option>g</option><option>kg</option><option>oz</option><option>lb</option>
-                  <option>ml</option><option>L</option><option>pieces</option>
+                  <option>cups</option>
+                  <option>tbsp</option>
+                  <option>tsp</option>
+                  <option>g</option>
+                  <option>kg</option>
+                  <option>oz</option>
+                  <option>lb</option>
+                  <option>ml</option>
+                  <option>L</option>
+                  <option>pieces</option>
                 </select>
                 <input type="text" class="ing-name" placeholder="Ingredient name" value="all-purpose flour" />
               </div>
@@ -509,12 +555,18 @@
           <div class="temp-category">
             <h3>🥩 Meat Internal Temperatures</h3>
             <div class="temp-table">
-              <div class="temp-row header"><span>Meat</span><span>Rare</span><span>Medium</span><span>Well Done</span></div>
-              <div class="temp-row"><span>Beef Steak</span><span class="temp-rare">52°C / 125°F</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
-              <div class="temp-row"><span>Lamb</span><span class="temp-rare">54°C / 130°F</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
-              <div class="temp-row"><span>Pork</span><span class="temp-rare">—</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">71°C / 160°F</span></div>
-              <div class="temp-row"><span>Chicken</span><span class="temp-rare">—</span><span class="temp-med">—</span><span class="temp-well">74°C / 165°F</span></div>
-              <div class="temp-row"><span>Fish</span><span class="temp-rare">—</span><span class="temp-med">57°C / 135°F</span><span class="temp-well">63°C / 145°F</span></div>
+              <div class="temp-row header"><span>Meat</span><span>Rare</span><span>Medium</span><span>Well Done</span>
+              </div>
+              <div class="temp-row"><span>Beef Steak</span><span class="temp-rare">52°C / 125°F</span><span
+                  class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
+              <div class="temp-row"><span>Lamb</span><span class="temp-rare">54°C / 130°F</span><span
+                  class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
+              <div class="temp-row"><span>Pork</span><span class="temp-rare">—</span><span class="temp-med">63°C /
+                  145°F</span><span class="temp-well">71°C / 160°F</span></div>
+              <div class="temp-row"><span>Chicken</span><span class="temp-rare">—</span><span
+                  class="temp-med">—</span><span class="temp-well">74°C / 165°F</span></div>
+              <div class="temp-row"><span>Fish</span><span class="temp-rare">—</span><span class="temp-med">57°C /
+                  135°F</span><span class="temp-well">63°C / 145°F</span></div>
             </div>
           </div>
           <div class="temp-category">
@@ -533,7 +585,8 @@
             <h3>🫒 Oil Smoke Points</h3>
             <div class="temp-table">
               <div class="temp-row header"><span>Oil</span><span>Smoke Point</span><span>Best For</span></div>
-              <div class="temp-row"><span>Avocado Oil</span><span>271°C / 520°F</span><span>High-heat frying</span></div>
+              <div class="temp-row"><span>Avocado Oil</span><span>271°C / 520°F</span><span>High-heat frying</span>
+              </div>
               <div class="temp-row"><span>Refined Coconut</span><span>232°C / 450°F</span><span>Sautéing</span></div>
               <div class="temp-row"><span>Ghee</span><span>252°C / 485°F</span><span>Indian cooking</span></div>
               <div class="temp-row"><span>Olive Oil</span><span>190°C / 375°F</span><span>Medium heat</span></div>
@@ -549,7 +602,8 @@
               <div class="temp-row"><span>Soft Ball</span><span>115°C / 240°F</span><span>Fudge, fondant</span></div>
               <div class="temp-row"><span>Firm Ball</span><span>121°C / 250°F</span><span>Caramels</span></div>
               <div class="temp-row"><span>Hard Ball</span><span>127°C / 260°F</span><span>Marshmallows</span></div>
-              <div class="temp-row"><span>Hard Crack</span><span>149°C / 300°F</span><span>Toffee, lollipops</span></div>
+              <div class="temp-row"><span>Hard Crack</span><span>149°C / 300°F</span><span>Toffee, lollipops</span>
+              </div>
               <div class="temp-row"><span>Caramel</span><span>170°C / 338°F</span><span>Creme brûlée</span></div>
             </div>
           </div>
@@ -673,7 +727,8 @@
       <div class="section-header">
         <span class="section-badge" style="background: linear-gradient(135deg, #FFD700, #FFA500);">★ Fine Dining</span>
         <h2 class="section-title" style="color: white;">5-Star Luxury Collection</h2>
-        <p class="section-subtitle" style="color: rgba(255,255,255,0.7);">Michelin-star recipes demystified for your home kitchen</p>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.7);">Michelin-star recipes demystified for your
+          home kitchen</p>
       </div>
       <div class="luxury-grid" id="luxuryGrid"></div>
     </div>
@@ -714,9 +769,11 @@
     <div class="container">
       <div class="myanmar-inner">
         <div class="myanmar-left">
-          <span class="section-badge" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9); color: white;">🇲🇲 Hidden Gem</span>
+          <span class="section-badge" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9); color: white;">🇲🇲
+            Hidden Gem</span>
           <h2 class="section-title">Myanmar Kitchen</h2>
-          <p class="myanmar-desc">Discover the rich, underexplored flavors of Myanmar cuisine — a beautiful blend of Indian, Chinese, and Thai influences with unique local ingredients and traditions.</p>
+          <p class="myanmar-desc">Discover the rich, underexplored flavors of Myanmar cuisine — a beautiful blend of
+            Indian, Chinese, and Thai influences with unique local ingredients and traditions.</p>
           <div class="myanmar-highlights">
             <div class="myanmar-highlight">
               <span class="highlight-icon">🐟</span>
@@ -755,7 +812,8 @@
       <div class="section-header">
         <span class="section-badge">🎬 Watch & Cook</span>
         <h2 class="section-title">Learn from the Best</h2>
-        <p class="section-subtitle">Watch master chefs demonstrate these recipes — pause, rewind, and cook along in real time</p>
+        <p class="section-subtitle">Watch master chefs demonstrate these recipes — pause, rewind, and cook along in real
+          time</p>
       </div>
       <div class="video-cuisine-tabs">
         <button class="vid-tab active" onclick="switchVideoTab('all', this)">🌍 All</button>
@@ -779,7 +837,8 @@
       <div class="section-header">
         <span class="section-badge">🍽️ Personalised</span>
         <h2 class="section-title">30-Day Personalised Diet Plan</h2>
-        <p class="section-subtitle">Choose your diet style — AI generates a tailored 30-day plan from today. Click any meal to see the full recipe.</p>
+        <p class="section-subtitle">Choose your diet style — AI generates a tailored 30-day plan from today. Click any
+          meal to see the full recipe.</p>
       </div>
 
       <!-- BMR / TDEE Calculator -->
@@ -813,11 +872,16 @@
           <div class="bmr-activity">
             <label>Activity Level</label>
             <div class="bmr-activity-btns">
-              <button class="bmr-act-btn active" data-factor="1.2"   onclick="setBMRAct(1.2,this)">😴 Sedentary<small>Desk job, little exercise</small></button>
-              <button class="bmr-act-btn"         data-factor="1.375" onclick="setBMRAct(1.375,this)">🚶 Light<small>1–3 days/week</small></button>
-              <button class="bmr-act-btn"         data-factor="1.55"  onclick="setBMRAct(1.55,this)">🏃 Moderate<small>3–5 days/week</small></button>
-              <button class="bmr-act-btn"         data-factor="1.725" onclick="setBMRAct(1.725,this)">💪 Active<small>6–7 days/week</small></button>
-              <button class="bmr-act-btn"         data-factor="1.9"   onclick="setBMRAct(1.9,this)">🏋️ Very Active<small>Physical job + daily exercise</small></button>
+              <button class="bmr-act-btn active" data-factor="1.2" onclick="setBMRAct(1.2,this)">😴 Sedentary<small>Desk
+                  job, little exercise</small></button>
+              <button class="bmr-act-btn" data-factor="1.375" onclick="setBMRAct(1.375,this)">🚶 Light<small>1–3
+                  days/week</small></button>
+              <button class="bmr-act-btn" data-factor="1.55" onclick="setBMRAct(1.55,this)">🏃 Moderate<small>3–5
+                  days/week</small></button>
+              <button class="bmr-act-btn" data-factor="1.725" onclick="setBMRAct(1.725,this)">💪 Active<small>6–7
+                  days/week</small></button>
+              <button class="bmr-act-btn" data-factor="1.9" onclick="setBMRAct(1.9,this)">🏋️ Very Active<small>Physical
+                  job + daily exercise</small></button>
             </div>
           </div>
           <button class="bmr-calc-btn" onclick="calculateBMR()">Calculate My Needs</button>
@@ -829,12 +893,16 @@
       <div class="diet-type-selector">
         <label class="diet-type-label">Choose Your Diet</label>
         <div class="diet-type-options">
-          <button class="diet-type-btn active" data-diet="balanced"      onclick="setDietType('balanced', this)">🌿 Balanced</button>
-          <button class="diet-type-btn"         data-diet="keto"          onclick="setDietType('keto', this)">🥑 Keto</button>
-          <button class="diet-type-btn"         data-diet="high-protein"  onclick="setDietType('high-protein', this)">💪 High-Protein</button>
-          <button class="diet-type-btn"         data-diet="mediterranean" onclick="setDietType('mediterranean', this)">🫒 Mediterranean</button>
-          <button class="diet-type-btn"         data-diet="low-carb"      onclick="setDietType('low-carb', this)">🥗 Low-Carb</button>
-          <button class="diet-type-btn"         data-diet="vegan"         onclick="setDietType('vegan', this)">🌱 Vegan</button>
+          <button class="diet-type-btn active" data-diet="balanced" onclick="setDietType('balanced', this)">🌿
+            Balanced</button>
+          <button class="diet-type-btn" data-diet="keto" onclick="setDietType('keto', this)">🥑 Keto</button>
+          <button class="diet-type-btn" data-diet="high-protein" onclick="setDietType('high-protein', this)">💪
+            High-Protein</button>
+          <button class="diet-type-btn" data-diet="mediterranean" onclick="setDietType('mediterranean', this)">🫒
+            Mediterranean</button>
+          <button class="diet-type-btn" data-diet="low-carb" onclick="setDietType('low-carb', this)">🥗
+            Low-Carb</button>
+          <button class="diet-type-btn" data-diet="vegan" onclick="setDietType('vegan', this)">🌱 Vegan</button>
         </div>
       </div>
 
@@ -899,7 +967,8 @@
       <div class="testimonials-grid">
         <div class="testimonial-card">
           <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p>"The AI Chef helped me replicate my grandmother's mohinga recipe with perfect proportions. I cried when I tasted it — it was exactly right!"</p>
+          <p>"The AI Chef helped me replicate my grandmother's mohinga recipe with perfect proportions. I cried when I
+            tasted it — it was exactly right!"</p>
           <div class="testimonial-author">
             <div class="author-avatar">👩‍🍳</div>
             <div><strong>May Thu Win</strong><span>Home Cook, Yangon</span></div>
@@ -907,7 +976,8 @@
         </div>
         <div class="testimonial-card">
           <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p>"The measurement converter and portion calculator saved my dinner party. Scaled up the biryani recipe for 20 people flawlessly!"</p>
+          <p>"The measurement converter and portion calculator saved my dinner party. Scaled up the biryani recipe for
+            20 people flawlessly!"</p>
           <div class="testimonial-author">
             <div class="author-avatar">👨‍🍳</div>
             <div><strong>Rajesh Kumar</strong><span>Food Enthusiast, Mumbai</span></div>
@@ -915,7 +985,8 @@
         </div>
         <div class="testimonial-card">
           <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p>"I followed the Beef Wellington recipe step-by-step and my family thought I ordered it from a 5-star restaurant. Absolutely mind-blowing!"</p>
+          <p>"I followed the Beef Wellington recipe step-by-step and my family thought I ordered it from a 5-star
+            restaurant. Absolutely mind-blowing!"</p>
           <div class="testimonial-author">
             <div class="author-avatar">👩</div>
             <div><strong>Sarah Mitchell</strong><span>Amateur Chef, London</span></div>
@@ -923,7 +994,8 @@
         </div>
         <div class="testimonial-card">
           <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p>"The technique library taught me wok hei in a single afternoon. My fried rice now has that smoky restaurant flavor. This app is gold!"</p>
+          <p>"The technique library taught me wok hei in a single afternoon. My fried rice now has that smoky restaurant
+            flavor. This app is gold!"</p>
           <div class="testimonial-author">
             <div class="author-avatar">👨</div>
             <div><strong>Wei Chen</strong><span>Culinary Student, Singapore</span></div>
@@ -958,7 +1030,8 @@
             <span class="logo-icon">🍽️</span>
             <span class="logo-text">Culinary<span class="logo-accent">AI</span></span>
           </div>
-          <p>Your AI-powered kitchen companion for world-class cooking at home. Mastering flavors from every corner of the globe.</p>
+          <p>Your AI-powered kitchen companion for world-class cooking at home. Mastering flavors from every corner of
+            the globe.</p>
           <div class="footer-social">
             <span>📘</span><span>📸</span><span>🐦</span><span>▶️</span>
           </div>
@@ -998,7 +1071,8 @@
         <div class="footer-col footer-creator-col">
           <h4>Creator</h4>
           <div class="creator-card">
-            <div class="creator-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions" class="creator-avatar-img"></div>
+            <div class="creator-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions" class="creator-avatar-img">
+            </div>
             <div class="creator-name">Mr. Kyaw Zin Tun</div>
             <a class="creator-email" href="mailto:itsolutions.mm@gmail.com">itsolutions.mm@gmail.com</a>
             <div class="creator-skills">
@@ -1016,7 +1090,8 @@
       <!-- Creator Brand Bar -->
       <div class="creator-brand-bar">
         <div class="creator-brand-left">
-          <span class="creator-brand-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions" class="creator-avatar-img"></span>
+          <span class="creator-brand-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions"
+              class="creator-avatar-img"></span>
           <div>
             <div class="creator-brand-name">Built by Mr. Kyaw Zin Tun</div>
             <div class="creator-brand-sub">AI Automation · N8N · Make · Networking · Cloud</div>
@@ -1031,7 +1106,8 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2026 CulinaryAI — Designed &amp; Built by <strong style="color:var(--primary-light)">Mr. Kyaw Zin Tun</strong></p>
+        <p>© 2026 CulinaryAI — Designed &amp; Built by <strong style="color:var(--primary-light)">Mr. Kyaw Zin
+            Tun</strong></p>
         <p>AI Automation · N8N · Make · Networking · Cloud Solutions</p>
       </div>
     </div>
@@ -1064,7 +1140,8 @@
       <div class="key-settings-panel" id="keySettingsPanel">
         <div class="key-settings-inner">
           <div class="key-settings-title">🔑 OpenAI API Key</div>
-          <p class="key-settings-desc">Enter your OpenAI API key to enable real AI responses. Leave blank to use built-in AI.</p>
+          <p class="key-settings-desc">Enter your OpenAI API key to enable real AI responses. Leave blank to use
+            built-in AI.</p>
           <div class="key-input-row">
             <input type="password" id="openaiKeyInput" placeholder="sk-proj-..." autocomplete="off" />
             <button class="key-save-btn" onclick="saveOpenAIKey()">Save</button>
@@ -1079,7 +1156,8 @@
 
       <!-- Topic Guard Notice -->
       <div class="topic-guard-banner">
-        🍳 <strong>Chef AI is cooking-only.</strong> Ask about recipes, techniques, nutrition, calories, substitutions & cuisines.
+        🍳 <strong>Chef AI is cooking-only.</strong> Ask about recipes, techniques, nutrition, calories, substitutions &
+        cuisines.
       </div>
 
       <!-- Messages -->
@@ -1103,15 +1181,22 @@
 
       <!-- Quick Suggestions -->
       <div class="chat-suggestions">
-        <button class="chat-suggestion" onclick="sendSuggestion('What can I make with chicken and coconut milk?')">🥥 Coconut chicken</button>
-        <button class="chat-suggestion" onclick="sendSuggestion('How many calories in butter chicken per serving?')">🔥 Calorie check</button>
-        <button class="chat-suggestion" onclick="sendSuggestion('How do I get authentic wok hei at home?')">🥢 Wok hei secrets</button>
-        <button class="chat-suggestion" onclick="sendSuggestion('What is a good substitute for eggs in baking?')">🥚 Egg substitutes</button>
-        <button class="chat-suggestion" onclick="sendSuggestion('Give me a high-protein low-carb dinner idea')">💪 High-protein meal</button>
-        <button class="chat-suggestion" onclick="sendSuggestion('How do I make authentic Mohinga from Myanmar?')">🐟 Myanmar Mohinga</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('What can I make with chicken and coconut milk?')">🥥
+          Coconut chicken</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How many calories in butter chicken per serving?')">🔥
+          Calorie check</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How do I get authentic wok hei at home?')">🥢 Wok hei
+          secrets</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('What is a good substitute for eggs in baking?')">🥚 Egg
+          substitutes</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('Give me a high-protein low-carb dinner idea')">💪
+          High-protein meal</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How do I make authentic Mohinga from Myanmar?')">🐟
+          Myanmar Mohinga</button>
       </div>
       <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="Ask anything about cooking..." onkeydown="if(event.key==='Enter') sendMessage()" />
+        <input type="text" id="chatInput" placeholder="Ask anything about cooking..."
+          onkeydown="if(event.key==='Enter') sendMessage()" />
         <button class="chat-send-btn" onclick="sendMessage()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -1159,7 +1244,10 @@
       <div class="donate-header">
         <div class="donate-coffee-icon">☕</div>
         <h2 class="donate-title">Buy Me a Coffee</h2>
-        <p class="donate-sub">If CulinaryAI helped your cooking, support the creator with a small donation. Every cup counts! 🙏</p>
+        <p class="donate-sub" style="font-weight: 600; color: var(--accent2); margin-top: 8px;">The coffee me is
+          intentionally generously donated to destitute society.</p>
+        <p class="donate-sub" style="margin-top: 12px;">If CulinaryAI helped your cooking, support the creator with a
+          small donation. Every cup counts! 🙏</p>
       </div>
 
       <!-- Payment Tabs -->
@@ -1243,4 +1331,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

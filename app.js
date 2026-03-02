@@ -1794,24 +1794,37 @@ let originalServes = 4;
 let desiredServes = 4;
 
 /* ══════════════════════════════════════
-   INIT
+   APP INITIALIZATION
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  renderRecipes();
-  renderLuxuryGrid();
-  renderBakeryGrid();
-  renderMyanmarCards();
-  renderSubstitutions('');
-  renderVideos('all');
-  setupNavScroll();
-  setupSearchSuggestions();
-  initTimerDisplay();
-  animateOnScroll();
-  startDemoTypingEffect();
-  initOpenAI();
+  // Hide splash screen after a short delay
+  const splash = document.getElementById('splashScreen');
+  if (splash) {
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+      }, 800); // Wait for transition to finish
+    }, 2500); // 2.5 second splash duration
+  }
+
+  // Set default generic search text on load
+  const genericInput = document.getElementById('genericSearchInput');
+  if (genericInput) {
+    genericInput.value = "Show me luxury recipes";
+  }
+
   initLanguage();
-  initMealLog();
-  initDietPlan();
+  initOpenAI();
+  initCuisines();
+  initRecipes();
+  initBakery();
+  initLuxury();
+  initVideos();
+  initTools();
+  initBMREvents();
+  initChatDraggable();
+  animateOnScroll();
 });
 
 /* ══════════════════════════════════════
