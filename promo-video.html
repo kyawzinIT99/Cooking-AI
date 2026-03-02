@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CulinaryAI — Promo Video</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #FF6500;
+      --gold:   #FFB703;
+      --green:  #06D6A0;
+      --purple: #8B5CF6;
+      --red:    #E63946;
+      --bg:     #070710;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Stage: 16:9 aspect, centred ── */
+    #stage {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      background: var(--bg);
+      overflow: hidden;
+      margin: auto;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 0;
+    }
+
+    /* Ambient particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      20%  { opacity: 0.4; }
+      80%  { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.5); }
+    }
+
+    /* ── Progress bar ── */
+    #progress-bar {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange), var(--gold), var(--green));
+      width: 0%;
+      z-index: 100;
+      transition: width 0.1s linear;
+    }
+
+    /* ── Slide system ── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      padding: 60px;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: slideIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .slide.exit {
+      animation: slideOut 0.4s ease forwards;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: scale(0.96) translateY(12px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+    @keyframes slideOut {
+      from { opacity: 1; transform: scale(1); }
+      to   { opacity: 0; transform: scale(1.04); }
+    }
+
+    /* ── Typography ── */
+    .badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s 0.2s both;
+    }
+    .badge-orange { background: rgba(255,101,0,0.18); border: 1px solid rgba(255,101,0,0.4); color: var(--orange); }
+    .badge-green  { background: rgba(6,214,160,0.15);  border: 1px solid rgba(6,214,160,0.4); color: var(--green); }
+    .badge-purple { background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); color: var(--purple); }
+    .badge-gold   { background: rgba(255,183,3,0.15);  border: 1px solid rgba(255,183,3,0.4);  color: var(--gold); }
+    .badge-red    { background: rgba(230,57,70,0.15);  border: 1px solid rgba(230,57,70,0.4);  color: var(--red); }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 5vw, 68px);
+      font-weight: 800;
+      color: white;
+      text-align: center;
+      line-height: 1.1;
+      animation: fadeUp 0.5s 0.3s both;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      line-height: 1.2;
+      animation: fadeUp 0.5s 0.3s both;
+    }
+    .sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.6;
+      animation: fadeUp 0.5s 0.45s both;
+    }
+    .accent { color: var(--orange); }
+    .accent-green { color: var(--green); }
+    .accent-gold  { color: var(--gold); }
+    .accent-purple { color: var(--purple); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── Slide 1: Hero ── */
+    #s1 {
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,101,0,0.15) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,92,246,0.1) 0%, transparent 60%),
+                  var(--bg);
+    }
+    #s1 .logo-icon { font-size: 80px; animation: popIn 0.6s 0.1s both; display: block; margin-bottom: 20px; }
+    #s1 h1 .brand-ai { color: var(--orange); font-style: italic; }
+    #s1 .tagline {
+      margin-top: 20px;
+      font-size: 20px;
+      color: rgba(255,255,255,0.5);
+      animation: fadeUp 0.5s 0.6s both;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    #s1 .made-by {
+      position: absolute;
+      bottom: 28px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+      animation: fadeIn 0.5s 1s both;
+    }
+
+    /* ── Stat chips ── */
+    .stat-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 32px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px 24px;
+      text-align: center;
+    }
+    .stat-chip .val {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+    .stat-chip .lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ── Cuisine grid ── */
+    .cuisine-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+      width: 100%;
+      max-width: 800px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .cuisine-chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 16px 10px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 600;
+    }
+    .cuisine-chip .cicon { font-size: 28px; display: block; margin-bottom: 6px; }
+
+    /* ── Feature cards ── */
+    .feat-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 28px;
+      width: 100%;
+      max-width: 900px;
+      animation: fadeUp 0.5s 0.4s both;
+    }
+    .feat-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .feat-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .feat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+    .feat-card .ficon { font-size: 32px; margin-bottom: 10px; display: block; }
+    .feat-card .ftitle { font-weight: 700; color: white; font-size: 15px; margin-bottom: 6px; }
+    .feat-card .fdesc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    /* ── Diet type pills ── */
+    .diet-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .diet-pill {
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+    .dp-1 { background: rgba(6,214,160,0.12);   border-color: rgba(6,214,160,0.4);   color: #06D6A0; }
+    .dp-2 { background: rgba(255,183,3,0.12);    border-color: rgba(255,183,3,0.4);   color: #FFB703; }
+    .dp-3 { background: rgba(255,101,0,0.12);    border-color: rgba(255,101,0,0.4);   color: #FF6500; }
+    .dp-4 { background: rgba(139,92,246,0.12);   border-color: rgba(139,92,246,0.4);  color: #A78BFA; }
+    .dp-5 { background: rgba(34,197,94,0.12);    border-color: rgba(34,197,94,0.4);   color: #4ADE80; }
+    .dp-6 { background: rgba(6,182,212,0.12);    border-color: rgba(6,182,212,0.4);   color: #22D3EE; }
+
+    /* ── Language flags ── */
+    .lang-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .lang-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 18px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+    }
+    .lang-chip .flag { font-size: 26px; display: block; margin-bottom: 5px; }
+
+    /* ── Meal logger dots ── */
+    .adh-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 28px;
+      max-width: 700px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .adh-demo-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.5);
+    }
+
+    /* ── Grocery preview ── */
+    .grocery-preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+      max-width: 800px;
+      width: 100%;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .groc-cat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .groc-cat-hdr { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .groc-item { font-size: 12px; color: rgba(255,255,255,0.5); padding: 3px 0; display: flex; gap: 6px; align-items: center; }
+    .groc-item::before { content: '☐'; font-size: 14px; color: rgba(255,255,255,0.2); }
+
+    /* ── BMR preview ── */
+    .bmr-preview {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 32px;
+      max-width: 700px;
+      width: 100%;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .bmr-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 18px 12px;
+      text-align: center;
+    }
+    .bmr-card.hl { background: rgba(6,214,160,0.08); border-color: rgba(6,214,160,0.3); }
+    .bmr-val { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 800; color: white; }
+    .bmr-card.hl .bmr-val { color: var(--green); }
+    .bmr-lbl { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 5px; }
+
+    /* ── Tools preview ── */
+    .tools-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 28px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    .tool-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 16px 22px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .tool-chip .ticon { font-size: 28px; display: block; margin-bottom: 8px; }
+    .tool-chip .tlabel { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 600; }
+
+    /* ── CTA slide ── */
+    #s14 {
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,101,0,0.2) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 80% 20%, rgba(139,92,246,0.12) 0%, transparent 60%),
+                  var(--bg);
+    }
+    #s14 .cta-pill {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: linear-gradient(135deg, var(--orange), #c84b00);
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      animation: popIn 0.5s 0.6s both;
+      box-shadow: 0 8px 32px rgba(255,101,0,0.4);
+    }
+    .free-badge {
+      background: rgba(6,214,160,0.15);
+      border: 1px solid rgba(6,214,160,0.3);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 18px;
+      animation: fadeIn 0.5s 0.8s both;
+    }
+
+    /* ── Final branding slide ── */
+    #s15 {
+      background: linear-gradient(135deg, #0A0014 0%, #0A0A0F 50%, #001A0A 100%);
+    }
+    #s15 .brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: white;
+      animation: popIn 0.7s 0.2s both;
+    }
+    #s15 .brand-logo span { color: var(--orange); font-style: italic; }
+    #s15 .brand-sub {
+      font-size: 20px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 14px;
+      animation: fadeUp 0.5s 0.5s both;
+    }
+    #s15 .brand-credit {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeIn 0.5s 0.9s both;
+    }
+    #s15 .brand-logo-img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,101,0,0.4);
+    }
+    #s15 .brand-name { font-size: 16px; color: rgba(255,255,255,0.7); font-weight: 600; }
+    #s15 .brand-email { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+
+    /* ── Slide counter ── */
+    #slide-counter {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      z-index: 100;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Nav dots ── */
+    #nav-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 100;
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-dot.active { background: var(--orange); width: 18px; border-radius: 4px; }
+
+    /* ── Replay button ── */
+    #replay-btn {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s;
+      display: none;
+    }
+    #replay-btn:hover { background: rgba(255,255,255,0.14); color: white; }
+
+    /* ── Music toggle ── */
+    #music-btn {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #music-btn:hover { background: rgba(255,255,255,0.14); color: white; }
+    #music-btn.muted { color: rgba(255,255,255,0.35); border-color: rgba(255,255,255,0.08); }
+    .music-eq {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+    .music-eq span {
+      display: block;
+      width: 3px;
+      background: var(--green);
+      border-radius: 2px;
+      animation: eq-bar 0.6s ease-in-out infinite alternate;
+    }
+    .music-eq span:nth-child(1) { height: 5px;  animation-delay: 0s; }
+    .music-eq span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+    .music-eq span:nth-child(3) { height: 7px;  animation-delay: 0.3s; }
+    .music-eq span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+    @keyframes eq-bar {
+      from { transform: scaleY(0.3); }
+      to   { transform: scaleY(1); }
+    }
+    #music-btn.muted .music-eq span { animation: none; opacity: 0.3; transform: scaleY(0.3); }
+
+    /* ── Fullscreen button ── */
+    #fs-btn {
+      position: absolute;
+      top: 20px;
+      right: 90px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s;
+    }
+    #fs-btn:hover { background: rgba(255,255,255,0.14); color: white; }
+
+    /* ── Scroll scale fix ── */
+    @media (max-width: 1280px) {
+      #stage { transform: translateY(-50%) scale(0.8); transform-origin: center center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- Ambient particles -->
+  <div class="particle" style="width:200px;height:200px;background:radial-gradient(circle,rgba(255,101,0,0.15),transparent);top:10%;left:5%;animation-delay:0s;animation-duration:10s"></div>
+  <div class="particle" style="width:150px;height:150px;background:radial-gradient(circle,rgba(139,92,246,0.12),transparent);top:60%;left:80%;animation-delay:2s;animation-duration:12s"></div>
+  <div class="particle" style="width:180px;height:180px;background:radial-gradient(circle,rgba(6,214,160,0.1),transparent);top:40%;left:50%;animation-delay:4s;animation-duration:9s"></div>
+
+  <!-- ── SLIDE 1: Hero ── -->
+  <div class="slide active" id="s1">
+    <span class="logo-icon">🍽️</span>
+    <h1>Culinary<span class="brand-ai">AI</span></h1>
+    <p class="tagline">Your Ultimate Cooking Companion</p>
+    <div class="stat-row">
+      <div class="stat-chip"><div class="val accent">28</div><div class="lbl">Recipes</div></div>
+      <div class="stat-chip"><div class="val accent">8</div><div class="lbl">Cuisines</div></div>
+      <div class="stat-chip"><div class="val accent-green">6</div><div class="lbl">Diet Plans</div></div>
+      <div class="stat-chip"><div class="val accent-gold">8</div><div class="lbl">Languages</div></div>
+    </div>
+    <p class="made-by">by IT Solutions &nbsp;·&nbsp; itsolutions.mm@gmail.com</p>
+  </div>
+
+  <!-- ── SLIDE 2: 8 Cuisines ── -->
+  <div class="slide" id="s2">
+    <span class="badge badge-orange">28 World-Class Recipes</span>
+    <h2>8 Authentic Cuisines</h2>
+    <p class="sub">Curated, tested and perfected for your kitchen</p>
+    <div class="cuisine-grid">
+      <div class="cuisine-chip"><span class="cicon">🇮🇳</span>Indian</div>
+      <div class="cuisine-chip"><span class="cicon">🇨🇳</span>Chinese</div>
+      <div class="cuisine-chip"><span class="cicon">🇰🇷</span>Korean</div>
+      <div class="cuisine-chip"><span class="cicon">🇹🇭</span>Thai</div>
+      <div class="cuisine-chip"><span class="cicon">🇻🇳</span>Vietnamese</div>
+      <div class="cuisine-chip"><span class="cicon">🇲🇲</span>Myanmar</div>
+      <div class="cuisine-chip"><span class="cicon">🍰</span>Bakery</div>
+      <div class="cuisine-chip"><span class="cicon">👨‍🍳</span>Fine Dining</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: Visual Ingredients ── -->
+  <div class="slide" id="s3">
+    <span class="badge badge-gold">Every Recipe</span>
+    <h2>Visual Ingredient <span class="accent-gold">Grid</span></h2>
+    <p class="sub">See exactly what you need — at a glance — before you cook</p>
+    <div class="feat-grid feat-grid-3" style="max-width:780px;margin-top:28px">
+      <div class="feat-card" style="text-align:center">
+        <span class="ficon">🍗</span><span class="ficon" style="font-size:20px;margin-bottom:6px">🧅</span>
+        <div class="ftitle">Ingredient Emoji Strip</div>
+        <div class="fdesc">Quick preview on every recipe card</div>
+      </div>
+      <div class="feat-card" style="text-align:center">
+        <span class="ficon">🥕🧄🌶️🥛🫙</span>
+        <div class="ftitle">Visual Ingredient Modal</div>
+        <div class="fdesc">60+ ingredient auto-icons inside full recipe</div>
+      </div>
+      <div class="feat-card" style="text-align:center">
+        <span class="ficon">📊</span>
+        <div class="ftitle">Full Nutrition Panel</div>
+        <div class="fdesc">Protein, carbs, fat, fiber, sodium + macro pie</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: YouTube Videos ── -->
+  <div class="slide" id="s4">
+    <span class="badge badge-red">50+ Cooking Videos</span>
+    <h2>Watch & Cook <span class="accent">Along</span></h2>
+    <p class="sub">Embedded YouTube player with 3-tier fallback — videos never break</p>
+    <div class="feat-grid feat-grid-2" style="max-width:740px">
+      <div class="feat-card">
+        <span class="ficon">▶️</span>
+        <div class="ftitle">Play Directly In-App</div>
+        <div class="fdesc">No need to leave the page — watch, pause, cook along in real time</div>
+      </div>
+      <div class="feat-card">
+        <span class="ficon">🔄</span>
+        <div class="ftitle">Smart 3-Tier Fallback</div>
+        <div class="fdesc">Embed → Direct Link → Search — a working path always exists</div>
+      </div>
+      <div class="feat-card">
+        <span class="ficon">🎬</span>
+        <div class="ftitle">Recipe Video Modal</div>
+        <div class="fdesc">Click any recipe and watch the full cooking demonstration</div>
+      </div>
+      <div class="feat-card">
+        <span class="ficon">☕</span>
+        <div class="ftitle">Coffee Brewing Series</div>
+        <div class="fdesc">Espresso to siphon — 8 specialty coffee technique videos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: AI Chef ── -->
+  <div class="slide" id="s5">
+    <span class="badge badge-purple">Powered by GPT-4o</span>
+    <h2>AI <span class="accent-purple">Chef</span> Assistant</h2>
+    <p class="sub">Ask anything about cooking — substitutions, techniques, temperatures, flavours</p>
+    <div class="feat-grid feat-grid-3" style="max-width:820px">
+      <div class="feat-card">
+        <span class="ficon">💬</span>
+        <div class="ftitle">Natural Conversation</div>
+        <div class="fdesc">Remembers your last 14 messages for context-aware answers</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(139,92,246,0.3)">
+        <span class="ficon">🛡️</span>
+        <div class="ftitle">Cooking-Only Guard</div>
+        <div class="fdesc">Strict topic guard — stays focused on food and cooking only</div>
+      </div>
+      <div class="feat-card">
+        <span class="ficon">🤖</span>
+        <div class="ftitle">Adapt Any Recipe</div>
+        <div class="fdesc">Ask AI to make a recipe Keto, Vegan, or High-Protein instantly</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: Diet Plan ── -->
+  <div class="slide" id="s6">
+    <span class="badge badge-green">AI Generated</span>
+    <h2>30-Day Personalised <span class="accent-green">Diet Plan</span></h2>
+    <p class="sub">Choose your diet — AI builds a tailored plan from today, automatically</p>
+    <div class="diet-pills">
+      <div class="diet-pill dp-1">🌿 Balanced</div>
+      <div class="diet-pill dp-2">🥑 Keto</div>
+      <div class="diet-pill dp-3">💪 High-Protein</div>
+      <div class="diet-pill dp-4">🫒 Mediterranean</div>
+      <div class="diet-pill dp-5">🥗 Low-Carb</div>
+      <div class="diet-pill dp-6">🌱 Vegan</div>
+    </div>
+    <p class="sub" style="margin-top:18px;font-size:15px">Breakfast · Lunch · Snack · Dinner · Calories · AI Tips — all 30 days</p>
+  </div>
+
+  <!-- ── SLIDE 7: BMR Calculator ── -->
+  <div class="slide" id="s7">
+    <span class="badge badge-green">Mifflin-St Jeor Formula</span>
+    <h2>Personal Calorie <span class="accent-green">Calculator</span></h2>
+    <p class="sub">Enter your stats — get your scientifically accurate calorie target</p>
+    <div class="bmr-preview">
+      <div class="bmr-card">
+        <div class="bmr-val">1 720</div>
+        <div class="bmr-lbl">BMR<br><span style="font-size:10px;opacity:0.6">At rest</span></div>
+      </div>
+      <div class="bmr-card">
+        <div class="bmr-val">2 666</div>
+        <div class="bmr-lbl">TDEE<br><span style="font-size:10px;opacity:0.6">Maintenance</span></div>
+      </div>
+      <div class="bmr-card hl">
+        <div class="bmr-val">2 166</div>
+        <div class="bmr-lbl">Weight Loss<br><span style="font-size:10px;opacity:0.6">−0.5 kg/week</span></div>
+      </div>
+      <div class="bmr-card">
+        <div class="bmr-val">1 916</div>
+        <div class="bmr-lbl">Fast Loss<br><span style="font-size:10px;opacity:0.6">−0.75 kg/week</span></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:20px;font-size:14px">"Apply to Diet Plan" → auto-regenerates all 30 days to your exact needs</p>
+  </div>
+
+  <!-- ── SLIDE 8: Grocery List ── -->
+  <div class="slide" id="s8">
+    <span class="badge badge-gold">Week-by-Week</span>
+    <h2>Auto Grocery <span class="accent-gold">List Generator</span></h2>
+    <p class="sub">One click → complete ingredient list for the week, grouped by category</p>
+    <div class="grocery-preview">
+      <div class="groc-cat">
+        <div class="groc-cat-hdr">🥩 Proteins</div>
+        <div class="groc-item">Chicken breast 400g</div>
+        <div class="groc-item">Salmon fillet 300g</div>
+        <div class="groc-item">Firm tofu 200g</div>
+      </div>
+      <div class="groc-cat">
+        <div class="groc-cat-hdr">🥦 Produce</div>
+        <div class="groc-item">Garlic cloves</div>
+        <div class="groc-item">Fresh ginger</div>
+        <div class="groc-item">Spinach 150g</div>
+      </div>
+      <div class="groc-cat">
+        <div class="groc-cat-hdr">🫙 Pantry</div>
+        <div class="groc-item">Jasmine rice 1kg</div>
+        <div class="groc-item">Coconut milk</div>
+        <div class="groc-item">Soy sauce</div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:18px;font-size:14px">Check items off as you shop · One-tap copy to clipboard</p>
+  </div>
+
+  <!-- ── SLIDE 9: AI Recipe Modifier ── -->
+  <div class="slide" id="s9">
+    <span class="badge badge-purple">OpenAI Powered</span>
+    <h2>AI Recipe <span class="accent-purple">Modifier</span></h2>
+    <p class="sub">Transform any recipe to fit YOUR diet — instantly</p>
+    <div class="feat-grid feat-grid-2" style="max-width:700px">
+      <div class="feat-card" style="border-color:rgba(139,92,246,0.25)">
+        <span class="ficon">🥩→🥦</span>
+        <div class="ftitle">Butter Chicken → Vegan</div>
+        <div class="fdesc">AI swaps every non-vegan ingredient with perfect plant-based alternatives</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(139,92,246,0.25)">
+        <span class="ficon">🍜→🥑</span>
+        <div class="ftitle">Pad Thai → Keto</div>
+        <div class="fdesc">Removes rice noodles, substitutes zoodles, adjusts sauce for low-carb</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(139,92,246,0.25)">
+        <span class="ficon">🍖→💪</span>
+        <div class="ftitle">Any Recipe → High-Protein</div>
+        <div class="fdesc">Maximises protein content while keeping the dish delicious</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(139,92,246,0.25)">
+        <span class="ficon">✅</span>
+        <div class="ftitle">Explains Every Change</div>
+        <div class="fdesc">AI explains why each swap works for your selected diet type</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 10: Meal Logger ── -->
+  <div class="slide" id="s10">
+    <span class="badge badge-green">Track Your Progress</span>
+    <h2>Meal Adherence <span class="accent-green">Tracker</span></h2>
+    <p class="sub">Log every meal · Build streaks · See your 30-day progress at a glance</p>
+    <div class="adh-demo">
+      <!-- 30 dots with varied colours -->
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#FFB703">3</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#FFB703">2</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#FB8500">1</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:#FFB703">3</div>
+      <div class="adh-demo-dot" style="background:#06D6A0">4</div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="adh-demo-dot" style="background:rgba(255,255,255,0.1)"></div>
+    </div>
+    <div class="stat-row" style="margin-top:20px">
+      <div class="stat-chip"><div class="val" style="color:#06D6A0;font-size:24px">9🔥</div><div class="lbl">Day Streak</div></div>
+      <div class="stat-chip"><div class="val" style="font-size:24px">46</div><div class="lbl">Meals Logged</div></div>
+      <div class="stat-chip"><div class="val" style="color:#FFB703;font-size:24px">38%</div><div class="lbl">30-Day Progress</div></div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 11: Cooking Tools ── -->
+  <div class="slide" id="s11">
+    <span class="badge badge-orange">Built-In Kitchen Tools</span>
+    <h2>Professional <span class="accent">Cooking Tools</span></h2>
+    <p class="sub">Everything a serious cook needs, all in one place</p>
+    <div class="tools-row">
+      <div class="tool-chip">
+        <span class="ticon">⚖️</span>
+        <div class="tlabel">Unit Converter</div>
+      </div>
+      <div class="tool-chip">
+        <span class="ticon">⏱️</span>
+        <div class="tlabel">Cooking Timer</div>
+      </div>
+      <div class="tool-chip">
+        <span class="ticon">🔄</span>
+        <div class="tlabel">Substitution Guide</div>
+      </div>
+      <div class="tool-chip">
+        <span class="ticon">🍽️</span>
+        <div class="tlabel">Portion Calculator</div>
+      </div>
+      <div class="tool-chip">
+        <span class="ticon">🌡️</span>
+        <div class="tlabel">Temperature Guide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 12: 8 Languages ── -->
+  <div class="slide" id="s12">
+    <span class="badge badge-gold">Global Access</span>
+    <h2>Cook in <span class="accent-gold">8 Languages</span></h2>
+    <p class="sub">Switch languages instantly — the whole app adapts</p>
+    <div class="lang-row">
+      <div class="lang-chip"><span class="flag">🇺🇸</span>English</div>
+      <div class="lang-chip"><span class="flag">🇲🇲</span>မြန်မာ</div>
+      <div class="lang-chip"><span class="flag">🇰🇷</span>한국어</div>
+      <div class="lang-chip"><span class="flag">🇨🇳</span>中文</div>
+      <div class="lang-chip"><span class="flag">🇹🇭</span>ภาษาไทย</div>
+      <div class="lang-chip"><span class="flag">🇻🇳</span>Tiếng Việt</div>
+      <div class="lang-chip"><span class="flag">🇮🇳</span>हिन्दी</div>
+      <div class="lang-chip"><span class="flag">🇯🇵</span>日本語</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 13: Everything at a glance ── -->
+  <div class="slide" id="s13">
+    <span class="badge badge-orange">Everything in One App</span>
+    <h2>The Complete <span class="accent">Feature Set</span></h2>
+    <div class="feat-grid" style="grid-template-columns:repeat(4,1fr);max-width:960px;margin-top:24px">
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">🍽️</span>
+        <div class="ftitle" style="font-size:13px">28 Recipes</div>
+        <div class="fdesc" style="font-size:11px">8 world cuisines</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">🤖</span>
+        <div class="ftitle" style="font-size:13px">AI Chef Chat</div>
+        <div class="fdesc" style="font-size:11px">GPT-4o powered</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">🎬</span>
+        <div class="ftitle" style="font-size:13px">50+ Videos</div>
+        <div class="fdesc" style="font-size:11px">Smart fallback player</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">🌐</span>
+        <div class="ftitle" style="font-size:13px">8 Languages</div>
+        <div class="fdesc" style="font-size:11px">Instant UI switch</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">📅</span>
+        <div class="ftitle" style="font-size:13px">30-Day Diet Plan</div>
+        <div class="fdesc" style="font-size:11px">6 diet types</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">📊</span>
+        <div class="ftitle" style="font-size:13px">BMR Calculator</div>
+        <div class="fdesc" style="font-size:11px">Personal targets</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">🛒</span>
+        <div class="ftitle" style="font-size:13px">Grocery Lists</div>
+        <div class="fdesc" style="font-size:11px">Auto-generated</div>
+      </div>
+      <div class="feat-card" style="padding:14px 16px">
+        <span class="ficon" style="font-size:22px;margin-bottom:6px">📈</span>
+        <div class="ftitle" style="font-size:13px">Meal Tracker</div>
+        <div class="fdesc" style="font-size:11px">Streaks + progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 14: CTA ── -->
+  <div class="slide" id="s14">
+    <span class="badge badge-orange">Start Today</span>
+    <h1>Cook <span class="accent">Smarter.</span><br>Eat <span class="accent-green">Better.</span></h1>
+    <div class="cta-pill">🍽️ Explore CulinaryAI Now</div>
+    <span class="free-badge">✅ 100% Free &nbsp;·&nbsp; No Sign-Up &nbsp;·&nbsp; AI-Powered</span>
+    <p class="sub" style="margin-top:20px;font-size:15px">Built by IT Solutions &nbsp;·&nbsp; itsolutions.mm@gmail.com</p>
+  </div>
+
+  <!-- ── SLIDE 15: Branding ── -->
+  <div class="slide" id="s15">
+    <div class="brand-logo">Culinary<span>AI</span></div>
+    <div class="brand-sub">Your Ultimate Cooking Companion</div>
+    <div class="brand-credit">
+      <img class="brand-logo-img" src="itsolutoin logo.jpg" alt="IT Solutions" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-name">IT Solutions</div>
+        <div class="brand-email">itsolutions.mm@gmail.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress bar + UI chrome -->
+  <div id="progress-bar"></div>
+  <div id="slide-counter">1 / 15</div>
+  <div id="nav-dots"></div>
+  <button id="music-btn" onclick="toggleMusic()">
+    <div class="music-eq"><span></span><span></span><span></span><span></span></div>
+    <span id="music-label">Music On</span>
+  </button>
+  <button id="replay-btn" onclick="restartShow()">↺ Replay</button>
+  <button id="fs-btn" onclick="toggleFullscreen()" title="Press F to toggle fullscreen">⛶ Full Screen</button>
+
+</div><!-- end #stage -->
+
+<script>
+  const SLIDES      = document.querySelectorAll('.slide');
+  const TOTAL       = SLIDES.length;
+  const DURATIONS   = [4500,4000,4000,4000,4000,4500,4500,4500,4500,4500,4000,4000,4000,5000,5000];
+  let   current     = 0;
+  let   timer       = null;
+  let   elapsed     = 0;
+  let   tickInterval= null;
+
+  // Build nav dots
+  const dotsWrap = document.getElementById('nav-dots');
+  SLIDES.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsWrap.appendChild(d);
+  });
+
+  function goTo(idx) {
+    if (idx === current) return;
+    SLIDES[current].classList.remove('active');
+    SLIDES[current].classList.add('exit');
+    setTimeout(() => SLIDES[current - (idx > current ? -1 : 0) < 0 ? 0 : current].classList.remove('exit'), 400);
+
+    const prev = current;
+    current = idx;
+    SLIDES[prev].className = 'slide';
+    SLIDES[current].className = 'slide active';
+    // Refresh animation by re-cloning children's animations
+    SLIDES[current].querySelectorAll('[style*="animation"],[class*="badge"],[class*="sub"],h1,h2').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // reflow
+      el.style.animation = '';
+    });
+
+    updateChrome();
+    scheduleNext();
+  }
+
+  function next() {
+    if (current >= TOTAL - 1) {
+      document.getElementById('replay-btn').style.display = 'block';
+      document.getElementById('progress-bar').style.width = '100%';
+      clearInterval(tickInterval);
+      return;
+    }
+    goTo(current + 1);
+  }
+
+  function scheduleNext() {
+    clearTimeout(timer);
+    clearInterval(tickInterval);
+    elapsed = 0;
+    const dur = DURATIONS[current] || 4000;
+    document.getElementById('progress-bar').style.transition = 'none';
+    document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+
+    tickInterval = setInterval(() => {
+      elapsed += 100;
+      const segPct = elapsed / dur;
+      const totalPct = ((current + segPct) / TOTAL) * 100;
+      document.getElementById('progress-bar').style.transition = 'width 0.1s linear';
+      document.getElementById('progress-bar').style.width = totalPct + '%';
+    }, 100);
+
+    timer = setTimeout(() => {
+      clearInterval(tickInterval);
+      next();
+    }, dur);
+  }
+
+  function updateChrome() {
+    document.getElementById('slide-counter').textContent = (current + 1) + ' / ' + TOTAL;
+    document.querySelectorAll('.nav-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function restartShow() {
+    document.getElementById('replay-btn').style.display = 'none';
+    goTo(0);
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft' && current > 0) goTo(current - 1);
+    if (e.key === 'r' || e.key === 'R') restartShow();
+    if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  });
+
+  // Click to advance
+  document.getElementById('stage').addEventListener('click', e => {
+    if (!e.target.closest('.nav-dot') && !e.target.closest('#replay-btn') && !e.target.closest('#fs-btn')) next();
+  });
+
+  // Fullscreen toggle
+  function toggleFullscreen() {
+    const fsBtn = document.getElementById('fs-btn');
+    if (!document.fullscreenElement) {
+      document.getElementById('stage').requestFullscreen().catch(() => {
+        document.documentElement.requestFullscreen();
+      });
+      fsBtn.textContent = '✕ Exit Full Screen';
+    } else {
+      document.exitFullscreen();
+      fsBtn.textContent = '⛶ Full Screen';
+    }
+  }
+  document.addEventListener('fullscreenchange', () => {
+    const fsBtn = document.getElementById('fs-btn');
+    if (!document.fullscreenElement) {
+      fsBtn.textContent = '⛶ Full Screen';
+    }
+  });
+
+  // Start
+  scheduleNext();
+
+  /* ════════════════════════════════════
+     BACKGROUND MUSIC — Web Audio API
+     Warm ambient F-major pad + bass + melody
+     No external file needed — fully generated
+  ════════════════════════════════════ */
+  class AmbientMusic {
+    constructor() {
+      this.ctx          = null;
+      this.masterGain   = null;
+      this.reverbNode   = null;
+      this.playing      = false;
+      this.loopTimeout  = null;
+
+      // F major scale frequencies (Hz)
+      const n = (midi) => 440 * Math.pow(2, (midi - 69) / 12);
+      this.N = {
+        F2:n(41), G2:n(43), A2:n(45), Bb2:n(46), C3:n(48),
+        D3:n(50), E3:n(52), F3:n(53), G3:n(55), A3:n(57),
+        Bb3:n(58), C4:n(60), D4:n(62), E4:n(64), F4:n(65),
+        G4:n(67), A4:n(69), Bb4:n(70), C5:n(72), F5:n(77),
+      };
+
+      // Chord progression: F - Dm - Bb - C (4 s each = 16 s loop)
+      this.chords = [
+        { root: this.N.F2,  pad: [this.N.F2,  this.N.C3,  this.N.F3,  this.N.A3]  },  // F major
+        { root: this.N.D3,  pad: [this.N.D3,  this.N.A3,  this.N.F3,  this.N.D4]  },  // Dm
+        { root: this.N.Bb2, pad: [this.N.Bb2, this.N.F3,  this.N.Bb3, this.N.D4]  },  // Bb
+        { root: this.N.C3,  pad: [this.N.C3,  this.N.G3,  this.N.E3,  this.N.C4]  },  // C major
+      ];
+
+      // Gentle melody arpeggio over the full 16 s loop (16 notes)
+      this.melody = [
+        this.N.C5, this.N.A4, this.N.G4, this.N.F4,
+        this.N.A4, this.N.G4, this.N.F4, this.N.E4,
+        this.N.G4, this.N.F4, this.N.E4, this.N.D4,
+        this.N.F4, this.N.E4, this.N.D4, this.N.C4,
+      ];
+    }
+
+    _createReverb(ctx) {
+      // Simple convolver-based reverb using synthesised impulse
+      const conv    = ctx.createConvolver();
+      const sr      = ctx.sampleRate;
+      const len     = sr * 2.5;
+      const buf     = ctx.createBuffer(2, len, sr);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < len; i++) {
+          d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+        }
+      }
+      conv.buffer  = buf;
+      return conv;
+    }
+
+    _pad(freq, start, dur, gain = 0.06, detune = 0) {
+      const osc  = this.ctx.createOscillator();
+      const gn   = this.ctx.createGain();
+      const filt = this.ctx.createBiquadFilter();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+      osc.detune.setValueAtTime(detune, start);
+      filt.type = 'lowpass';
+      filt.frequency.setValueAtTime(900, start);
+      gn.gain.setValueAtTime(0, start);
+      gn.gain.linearRampToValueAtTime(gain, start + 1.2);
+      gn.gain.setValueAtTime(gain, start + dur - 1.0);
+      gn.gain.linearRampToValueAtTime(0, start + dur);
+      osc.connect(filt); filt.connect(gn); gn.connect(this.reverbNode);
+      osc.start(start); osc.stop(start + dur);
+    }
+
+    _bass(freq, start, dur) {
+      const osc  = this.ctx.createOscillator();
+      const gn   = this.ctx.createGain();
+      const filt = this.ctx.createBiquadFilter();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, start);
+      filt.type = 'lowpass';
+      filt.frequency.setValueAtTime(280, start);
+      gn.gain.setValueAtTime(0, start);
+      gn.gain.linearRampToValueAtTime(0.14, start + 0.4);
+      gn.gain.setValueAtTime(0.11, start + dur - 0.6);
+      gn.gain.linearRampToValueAtTime(0, start + dur);
+      osc.connect(filt); filt.connect(gn); gn.connect(this.masterGain);
+      osc.start(start); osc.stop(start + dur);
+    }
+
+    _melody(freq, start, dur) {
+      const osc = this.ctx.createOscillator();
+      const gn  = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+      gn.gain.setValueAtTime(0, start);
+      gn.gain.linearRampToValueAtTime(0.035, start + 0.05);
+      gn.gain.setValueAtTime(0.028, start + dur - 0.08);
+      gn.gain.linearRampToValueAtTime(0, start + dur);
+      osc.connect(gn); gn.connect(this.reverbNode);
+      osc.start(start); osc.stop(start + dur);
+    }
+
+    _scheduleLoop() {
+      if (!this.playing || !this.ctx) return;
+      const now          = this.ctx.currentTime;
+      const chordDur     = 4.0;
+      const loopDur      = chordDur * this.chords.length;  // 16 s
+      const melodySlot   = loopDur / this.melody.length;   // 1 s each
+
+      // Chords + bass
+      this.chords.forEach((ch, i) => {
+        const t = now + i * chordDur;
+        this._bass(ch.root, t, chordDur);
+        ch.pad.forEach(f => {
+          this._pad(f, t, chordDur, 0.065,  0);
+          this._pad(f, t, chordDur, 0.038,  6);   // chorus +
+          this._pad(f, t, chordDur, 0.038, -6);   // chorus -
+        });
+      });
+
+      // Melody arpeggio
+      this.melody.forEach((f, i) => {
+        this._melody(f, now + i * melodySlot, melodySlot * 0.82);
+      });
+
+      this.loopTimeout = setTimeout(() => this._scheduleLoop(), (loopDur - 0.3) * 1000);
+    }
+
+    start() {
+      if (this.playing) return;
+      this.ctx        = new (window.AudioContext || window.webkitAudioContext)();
+      this.masterGain = this.ctx.createGain();
+      this.masterGain.gain.setValueAtTime(0.72, this.ctx.currentTime);
+      this.reverbNode = this._createReverb(this.ctx);
+      const revGain   = this.ctx.createGain();
+      revGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
+      this.reverbNode.connect(revGain);
+      revGain.connect(this.masterGain);
+      this.masterGain.connect(this.ctx.destination);
+      this.playing    = true;
+      this._scheduleLoop();
+    }
+
+    stop() {
+      this.playing = false;
+      clearTimeout(this.loopTimeout);
+      if (this.masterGain) {
+        this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1.2);
+        setTimeout(() => { try { this.ctx.close(); } catch(_){} this.ctx = null; }, 1500);
+      }
+    }
+
+    fadeVolume(vol) {
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.linearRampToValueAtTime(vol, this.ctx.currentTime + 0.4);
+      }
+    }
+  }
+
+  const music = new AmbientMusic();
+  let musicMuted = false;
+
+  function toggleMusic() {
+    const btn   = document.getElementById('music-btn');
+    const label = document.getElementById('music-label');
+    if (musicMuted) {
+      music.fadeVolume(0.72);
+      musicMuted = false;
+      btn.classList.remove('muted');
+      label.textContent = 'Music On';
+    } else {
+      music.fadeVolume(0);
+      musicMuted = true;
+      btn.classList.add('muted');
+      label.textContent = 'Muted';
+    }
+  }
+
+  // Auto-start music on first user interaction (browser policy)
+  function startMusicOnce() {
+    music.start();
+    document.removeEventListener('click', startMusicOnce);
+    document.removeEventListener('keydown', startMusicOnce);
+  }
+  document.addEventListener('click', startMusicOnce);
+  document.addEventListener('keydown', startMusicOnce);
+</script>
+</body>
+</html>

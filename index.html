@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CulinaryAI — Your Ultimate Cooking Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ NAVIGATION ═══════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">🍽️</span>
+        <span class="logo-text">Culinary<span class="logo-accent">AI</span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#cuisines" data-i18n="nav_cuisines">Cuisines</a></li>
+        <li><a href="#recipes" data-i18n="nav_recipes">Recipes</a></li>
+        <li><a href="#tools" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#luxury">Fine Dining</a></li>
+        <li><a href="#bakery">Bakery</a></li>
+        <li><a href="#videos" data-i18n="nav_videos">🎬 Videos</a></li>
+        <li><a href="#meal-plan" style="color:#06D6A0">🍽️ Diet Plan</a></li>
+      </ul>
+      <div class="nav-actions">
+        <!-- Language Selector -->
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn" onclick="toggleLangMenu()" title="Change language">🇺🇸</button>
+          <div class="lang-menu" id="langMenu">
+            <button onclick="setLanguage('en')">🇺🇸 English</button>
+            <button onclick="setLanguage('mm')">🇲🇲 မြန်မာ</button>
+            <button onclick="setLanguage('ko')">🇰🇷 한국어</button>
+            <button onclick="setLanguage('zh')">🇨🇳 中文</button>
+            <button onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+            <button onclick="setLanguage('vi')">🇻🇳 Tiếng Việt</button>
+            <button onclick="setLanguage('hi')">🇮🇳 हिन्दी</button>
+            <button onclick="setLanguage('ja')">🇯🇵 日本語</button>
+          </div>
+        </div>
+        <button class="btn-ai-chat" id="openChatBtn">
+          <span>🤖</span> <span data-i18n="nav_ai">Ask AI Chef</span>
+        </button>
+        <button class="nav-hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO SECTION ═══════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ AI-Powered Culinary Experience</div>
+      <h1 class="hero-title">
+        Cook Like a
+        <span class="hero-gradient-text">World-Class Chef</span>
+        From Your Kitchen
+      </h1>
+      <p class="hero-subtitle">
+        Explore 5-star recipes from India, China, Thailand, Vietnam, Myanmar, and beyond.
+        Get instant AI guidance, smart tools, and step-by-step mastery — all in one place.
+      </p>
+      <div class="hero-search-wrapper">
+        <div class="hero-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="heroSearch" placeholder="Search recipes, ingredients, cuisines..." data-i18n-placeholder="search_ph" autocomplete="off" />
+          <button class="search-btn" onclick="performSearch()">Search</button>
+        </div>
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag" onclick="quickSearch('butter chicken')">🍗 Butter Chicken</span>
+        <span class="hero-tag" onclick="quickSearch('pad thai')">🍜 Pad Thai</span>
+        <span class="hero-tag" onclick="quickSearch('pho')">🍲 Phở</span>
+        <span class="hero-tag" onclick="quickSearch('mohinga')">🐟 Mohinga</span>
+        <span class="hero-tag" onclick="quickSearch('croissant')">🥐 Croissant</span>
+        <span class="hero-tag" onclick="quickSearch('beef wellington')">🥩 Beef Wellington</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>500+</strong><span>Recipes</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><strong>9</strong><span>Cuisines</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><strong>24/7</strong><span>AI Chef</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><strong>5★</strong><span>Quality</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CUISINE CATEGORIES ═══════════════ -->
+  <section class="cuisines-section" id="cuisines">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">World Kitchen</span>
+        <h2 class="section-title">Explore Global Cuisines</h2>
+        <p class="section-subtitle">From the spice markets of India to the night markets of Myanmar — every flavor, every culture</p>
+      </div>
+      <div class="cuisines-grid">
+        <div class="cuisine-card" data-cuisine="indian" onclick="filterByCuisine('indian')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #FF6B35, #F7931E, #FF4500);"></div>
+          <div class="cuisine-emoji">🇮🇳</div>
+          <div class="cuisine-food-emoji">🍛</div>
+          <h3>Indian</h3>
+          <p>Rich curries, aromatic spices & tandoor perfection</p>
+          <div class="cuisine-tags">
+            <span>Biryani</span><span>Curry</span><span>Tandoor</span>
+          </div>
+          <div class="cuisine-count">42 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="chinese" onclick="filterByCuisine('chinese')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #C1292E, #E63946, #FF6B6B);"></div>
+          <div class="cuisine-emoji">🇨🇳</div>
+          <div class="cuisine-food-emoji">🥟</div>
+          <h3>Chinese</h3>
+          <p>Dim sum, stir-fry mastery & thousand-year traditions</p>
+          <div class="cuisine-tags">
+            <span>Dim Sum</span><span>Wok</span><span>Noodles</span>
+          </div>
+          <div class="cuisine-count">55 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="thai" onclick="filterByCuisine('thai')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #06B6D4, #0891B2, #0E7490);"></div>
+          <div class="cuisine-emoji">🇹🇭</div>
+          <div class="cuisine-food-emoji">🍜</div>
+          <h3>Thai</h3>
+          <p>Bold flavors, coconut curries & street food magic</p>
+          <div class="cuisine-tags">
+            <span>Pad Thai</span><span>Curry</span><span>Tom Yum</span>
+          </div>
+          <div class="cuisine-count">38 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="vietnamese" onclick="filterByCuisine('vietnamese')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #10B981, #059669, #047857);"></div>
+          <div class="cuisine-emoji">🇻🇳</div>
+          <div class="cuisine-food-emoji">🍲</div>
+          <h3>Vietnamese</h3>
+          <p>Fresh herbs, light broths & vibrant street flavors</p>
+          <div class="cuisine-tags">
+            <span>Phở</span><span>Bánh Mì</span><span>Rolls</span>
+          </div>
+          <div class="cuisine-count">34 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="korean" onclick="filterByCuisine('korean')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #3B82F6, #1D4ED8, #1E3A8A);"></div>
+          <div class="cuisine-emoji">🇰🇷</div>
+          <div class="cuisine-food-emoji">🍚</div>
+          <h3>Korean</h3>
+          <p>Spicy, fermented & bold — BBQ, kimchi & soul food</p>
+          <div class="cuisine-tags">
+            <span>Bibimbap</span><span>BBQ</span><span>Kimchi</span>
+          </div>
+          <div class="cuisine-count">42 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="myanmar" onclick="filterByCuisine('myanmar')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED, #6D28D9);"></div>
+          <div class="cuisine-emoji">🇲🇲</div>
+          <div class="cuisine-food-emoji">🐟</div>
+          <h3>Myanmar</h3>
+          <p>Hidden gem flavors, tea leaf salads & mohinga soul</p>
+          <div class="cuisine-tags">
+            <span>Mohinga</span><span>Laphet</span><span>Shan</span>
+          </div>
+          <div class="cuisine-count">28 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="bakery" onclick="filterByCuisine('bakery')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #F59E0B, #D97706, #B45309);"></div>
+          <div class="cuisine-emoji">🥐</div>
+          <div class="cuisine-food-emoji">🎂</div>
+          <h3>Bakery & Pastry</h3>
+          <p>Artisan breads, French pastries & divine desserts</p>
+          <div class="cuisine-tags">
+            <span>Sourdough</span><span>Pastry</span><span>Cakes</span>
+          </div>
+          <div class="cuisine-count">60 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="luxury" onclick="filterByCuisine('luxury')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #1E1E3E, #2D1B69, #4C1D95);"></div>
+          <div class="cuisine-emoji">⭐</div>
+          <div class="cuisine-food-emoji">🥩</div>
+          <h3>5-Star Luxury</h3>
+          <p>Michelin-star techniques, truffle, wagyu & fine dining</p>
+          <div class="cuisine-tags">
+            <span>Wellington</span><span>Truffle</span><span>Wagyu</span>
+          </div>
+          <div class="cuisine-count">45 Recipes</div>
+        </div>
+        <div class="cuisine-card" data-cuisine="western" onclick="filterByCuisine('western')">
+          <div class="cuisine-card-bg" style="background: linear-gradient(135deg, #EC4899, #BE185D, #9D174D);"></div>
+          <div class="cuisine-emoji">🍷</div>
+          <div class="cuisine-food-emoji">🥗</div>
+          <h3>Western & European</h3>
+          <p>Classic French, Italian, and gourmet comfort food</p>
+          <div class="cuisine-tags">
+            <span>French</span><span>Italian</span><span>Grill</span>
+          </div>
+          <div class="cuisine-count">50 Recipes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURED RECIPES ═══════════════ -->
+  <section class="recipes-section" id="recipes">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Featured</span>
+        <h2 class="section-title">Signature Recipes</h2>
+        <p class="section-subtitle">Curated, tested, and perfected for your kitchen</p>
+      </div>
+      <div class="recipe-filters">
+        <button class="filter-btn active" data-filter="all" onclick="filterRecipes('all', this)">All</button>
+        <button class="filter-btn" data-filter="indian" onclick="filterRecipes('indian', this)">Indian</button>
+        <button class="filter-btn" data-filter="chinese" onclick="filterRecipes('chinese', this)">Chinese</button>
+        <button class="filter-btn" data-filter="thai" onclick="filterRecipes('thai', this)">Thai</button>
+        <button class="filter-btn" data-filter="vietnamese" onclick="filterRecipes('vietnamese', this)">Vietnamese</button>
+        <button class="filter-btn" data-filter="korean" onclick="filterRecipes('korean', this)">🇰🇷 Korean</button>
+        <button class="filter-btn" data-filter="myanmar" onclick="filterRecipes('myanmar', this)">Myanmar</button>
+        <button class="filter-btn" data-filter="bakery" onclick="filterRecipes('bakery', this)">Bakery</button>
+        <button class="filter-btn" data-filter="luxury" onclick="filterRecipes('luxury', this)">Luxury</button>
+      </div>
+      <!-- Cooking Style Filter Row -->
+      <div class="style-filters">
+        <button class="style-filter-btn active" data-style="all" onclick="filterByStyle('all', this)">All Methods</button>
+        <button class="style-filter-btn" data-style="quick" onclick="filterByStyle('quick', this)">⚡ Quick</button>
+        <button class="style-filter-btn" data-style="one-pan" onclick="filterByStyle('one-pan', this)">🍳 One-Pan</button>
+        <button class="style-filter-btn" data-style="stir-fry" onclick="filterByStyle('stir-fry', this)">🥢 Stir-Fry</button>
+        <button class="style-filter-btn" data-style="grilled" onclick="filterByStyle('grilled', this)">🔥 Grilled</button>
+        <button class="style-filter-btn" data-style="no-cook" onclick="filterByStyle('no-cook', this)">🥗 No-Cook</button>
+        <button class="style-filter-btn" data-style="baked" onclick="filterByStyle('baked', this)">🫓 Baked</button>
+        <button class="style-filter-btn" data-style="slow-cooked" onclick="filterByStyle('slow-cooked', this)">🫕 Slow-Cooked</button>
+        <button class="style-filter-btn" data-style="steamed" onclick="filterByStyle('steamed', this)">🥟 Steamed</button>
+        <button class="style-filter-btn" data-style="deep-fried" onclick="filterByStyle('deep-fried', this)">🍟 Deep-Fried</button>
+      </div>
+      <div class="recipes-grid" id="recipesGrid"></div>
+      <div class="load-more-wrapper">
+        <button class="btn-load-more" id="loadMoreBtn" onclick="loadMoreRecipes()">Load More Recipes</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ AI COOKING ASSISTANT SECTION ═══════════════ -->
+  <section class="ai-section" id="ai-section">
+    <div class="container">
+      <div class="ai-section-inner">
+        <div class="ai-section-left">
+          <span class="section-badge">AI Powered</span>
+          <h2 class="section-title" style="color: white;">Your Personal AI <br/>Chef, Always Ready</h2>
+          <p class="ai-section-desc">Ask anything about cooking — from ingredient substitutions to complex techniques. Our AI chef has mastered every cuisine in our collection and is available 24/7.</p>
+          <ul class="ai-features-list">
+            <li>🥄 Recipe suggestions based on what you have</li>
+            <li>⚖️ Instant measurement conversions</li>
+            <li>🔄 Smart ingredient substitutions</li>
+            <li>👨‍🍳 Step-by-step technique guidance</li>
+            <li>🌡️ Temperature & timing expertise</li>
+            <li>🥗 Dietary & allergy adaptations</li>
+          </ul>
+          <button class="btn-primary" onclick="openChat()">
+            <span>🤖</span> Chat with AI Chef Now
+          </button>
+        </div>
+        <div class="ai-section-right">
+          <div class="ai-demo-chat">
+            <div class="ai-demo-header">
+              <div class="ai-avatar-demo">👨‍🍳</div>
+              <div>
+                <div class="ai-name">Chef AI</div>
+                <div class="ai-status"><span class="status-dot"></span> Online & Ready</div>
+              </div>
+            </div>
+            <div class="ai-demo-messages">
+              <div class="demo-msg ai-msg">
+                <p>Hello! I'm your AI Chef. What would you like to cook today? I can suggest recipes, help with techniques, or convert measurements!</p>
+              </div>
+              <div class="demo-msg user-msg">
+                <p>I have chicken, coconut milk, and lemongrass. What can I make?</p>
+              </div>
+              <div class="demo-msg ai-msg">
+                <p>Perfect ingredients for a <strong>Thai Green Curry</strong> or <strong>Vietnamese Coconut Chicken Soup</strong>! 🌿 The lemongrass adds beautiful citrus notes. Want the full recipe with step-by-step instructions?</p>
+              </div>
+              <div class="demo-msg user-msg">
+                <p>Yes! Also, can you substitute fish sauce?</p>
+              </div>
+              <div class="demo-msg ai-msg typing" id="demoTyping">
+                <p>Great choice! For fish sauce, use <strong>soy sauce + a squeeze of lime</strong> (1:1 ratio) or <strong>Worcestershire sauce</strong>. Here's your Thai Green Curry recipe... 🍛</p>
+              </div>
+            </div>
+            <div class="ai-demo-input">
+              <input type="text" placeholder="Ask the AI Chef..." readonly onclick="openChat()" />
+              <button onclick="openChat()">Send ✈️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ COOKING TOOLS ═══════════════ -->
+  <section class="tools-section" id="tools">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Smart Tools</span>
+        <h2 class="section-title">Cooking Made Effortless</h2>
+        <p class="section-subtitle">Professional tools that every home cook needs at their fingertips</p>
+      </div>
+      <div class="tools-tabs">
+        <button class="tool-tab active" onclick="switchTool('converter', this)">⚖️ Unit Converter</button>
+        <button class="tool-tab" onclick="switchTool('timer', this)">⏱️ Cooking Timer</button>
+        <button class="tool-tab" onclick="switchTool('substitution', this)">🔄 Substitutions</button>
+        <button class="tool-tab" onclick="switchTool('portion', this)">🍽️ Portion Scale</button>
+        <button class="tool-tab" onclick="switchTool('temp', this)">🌡️ Temperature Guide</button>
+      </div>
+
+      <!-- Unit Converter -->
+      <div class="tool-panel active" id="tool-converter">
+        <div class="converter-grid">
+          <div class="converter-box">
+            <h3>Volume Converter</h3>
+            <div class="converter-row">
+              <input type="number" id="volInput" placeholder="Amount" oninput="convertVolume()" />
+              <select id="volFrom" onchange="convertVolume()">
+                <option value="tsp">Teaspoon (tsp)</option>
+                <option value="tbsp">Tablespoon (tbsp)</option>
+                <option value="cup">Cup</option>
+                <option value="fl_oz">Fl. Oz</option>
+                <option value="ml">Milliliter (ml)</option>
+                <option value="l">Liter (L)</option>
+              </select>
+              <span class="arrow">→</span>
+              <select id="volTo" onchange="convertVolume()">
+                <option value="ml">Milliliter (ml)</option>
+                <option value="l">Liter (L)</option>
+                <option value="tsp">Teaspoon (tsp)</option>
+                <option value="tbsp">Tablespoon (tbsp)</option>
+                <option value="cup">Cup</option>
+                <option value="fl_oz">Fl. Oz</option>
+              </select>
+            </div>
+            <div class="converter-result" id="volResult">Enter a value above</div>
+          </div>
+          <div class="converter-box">
+            <h3>Weight Converter</h3>
+            <div class="converter-row">
+              <input type="number" id="weightInput" placeholder="Amount" oninput="convertWeight()" />
+              <select id="weightFrom" onchange="convertWeight()">
+                <option value="g">Grams (g)</option>
+                <option value="kg">Kilograms (kg)</option>
+                <option value="oz">Ounces (oz)</option>
+                <option value="lb">Pounds (lb)</option>
+              </select>
+              <span class="arrow">→</span>
+              <select id="weightTo" onchange="convertWeight()">
+                <option value="oz">Ounces (oz)</option>
+                <option value="lb">Pounds (lb)</option>
+                <option value="g">Grams (g)</option>
+                <option value="kg">Kilograms (kg)</option>
+              </select>
+            </div>
+            <div class="converter-result" id="weightResult">Enter a value above</div>
+          </div>
+          <div class="converter-box">
+            <h3>Temperature Converter</h3>
+            <div class="converter-row">
+              <input type="number" id="tempInput" placeholder="Temperature" oninput="convertTemp()" />
+              <select id="tempFrom" onchange="convertTemp()">
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="Gas">Gas Mark</option>
+              </select>
+              <span class="arrow">→</span>
+              <select id="tempTo" onchange="convertTemp()">
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="C">Celsius (°C)</option>
+                <option value="Gas">Gas Mark</option>
+              </select>
+            </div>
+            <div class="converter-result" id="tempResult">Enter a value above</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cooking Timer -->
+      <div class="tool-panel" id="tool-timer">
+        <div class="timer-container">
+          <div class="timer-display-wrapper">
+            <div class="timer-ring" id="timerRing">
+              <svg viewBox="0 0 200 200">
+                <circle class="ring-bg" cx="100" cy="100" r="90" />
+                <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90"
+                  stroke-dasharray="565.49" stroke-dashoffset="0" />
+              </svg>
+              <div class="timer-display">
+                <div class="timer-time" id="timerDisplay">00:00</div>
+                <div class="timer-label" id="timerLabel">Ready to cook?</div>
+              </div>
+            </div>
+          </div>
+          <div class="timer-presets">
+            <h4>Quick Presets</h4>
+            <div class="preset-grid">
+              <button class="preset-btn" onclick="setTimer(3, 'Boiling Eggs (Soft)')">🥚 Soft Egg<br/><small>3 min</small></button>
+              <button class="preset-btn" onclick="setTimer(6, 'Boiling Eggs (Medium)')">🥚 Medium Egg<br/><small>6 min</small></button>
+              <button class="preset-btn" onclick="setTimer(10, 'Pasta Al Dente')">🍝 Pasta<br/><small>10 min</small></button>
+              <button class="preset-btn" onclick="setTimer(15, 'Rice (White)')">🍚 White Rice<br/><small>15 min</small></button>
+              <button class="preset-btn" onclick="setTimer(25, 'Brown Rice')">🍚 Brown Rice<br/><small>25 min</small></button>
+              <button class="preset-btn" onclick="setTimer(45, 'Roast Chicken')">🍗 Roast Chicken<br/><small>45 min</small></button>
+            </div>
+          </div>
+          <div class="timer-custom">
+            <h4>Custom Timer</h4>
+            <div class="custom-time-inputs">
+              <div class="time-input-group">
+                <input type="number" id="customHours" min="0" max="23" value="0" placeholder="0" />
+                <label>Hours</label>
+              </div>
+              <span class="time-colon">:</span>
+              <div class="time-input-group">
+                <input type="number" id="customMinutes" min="0" max="59" value="0" placeholder="0" />
+                <label>Minutes</label>
+              </div>
+              <span class="time-colon">:</span>
+              <div class="time-input-group">
+                <input type="number" id="customSeconds" min="0" max="59" value="0" placeholder="0" />
+                <label>Seconds</label>
+              </div>
+            </div>
+            <input type="text" id="customLabel" placeholder="Timer label (e.g. Caramelizing onions)" />
+            <button class="btn-primary" onclick="startCustomTimer()">Start Timer</button>
+          </div>
+          <div class="timer-controls">
+            <button class="timer-btn" id="pauseBtn" onclick="pauseTimer()" disabled>⏸️ Pause</button>
+            <button class="timer-btn" id="resetBtn" onclick="resetTimer()">🔄 Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Substitutions -->
+      <div class="tool-panel" id="tool-substitution">
+        <div class="sub-search">
+          <input type="text" id="subSearch" placeholder="Search ingredient to substitute (e.g. butter, eggs, milk)..." oninput="searchSubstitutions()" />
+        </div>
+        <div class="sub-grid" id="subGrid"></div>
+      </div>
+
+      <!-- Portion Scale -->
+      <div class="tool-panel" id="tool-portion">
+        <div class="portion-container">
+          <div class="portion-header">
+            <h3>Recipe Portion Calculator</h3>
+            <p>Scale any recipe up or down with perfect precision</p>
+          </div>
+          <div class="portion-setup">
+            <div class="portion-row">
+              <label>Original Serves</label>
+              <div class="portion-stepper">
+                <button onclick="adjustPortion('original', -1)">−</button>
+                <span id="originalServes">4</span>
+                <button onclick="adjustPortion('original', 1)">+</button>
+              </div>
+            </div>
+            <div class="portion-row">
+              <label>Desired Serves</label>
+              <div class="portion-stepper">
+                <button onclick="adjustPortion('desired', -1)">−</button>
+                <span id="desiredServes">4</span>
+                <button onclick="adjustPortion('desired', 1)">+</button>
+              </div>
+            </div>
+            <div class="portion-multiplier" id="portionMultiplier">Multiplier: <strong>1×</strong></div>
+          </div>
+          <div class="portion-recipe">
+            <h4>Add Your Ingredients</h4>
+            <div id="ingredientRows">
+              <div class="ingredient-row">
+                <input type="number" class="ing-amount" value="2" step="0.25" />
+                <select class="ing-unit">
+                  <option>cups</option><option>tbsp</option><option>tsp</option>
+                  <option>g</option><option>kg</option><option>oz</option><option>lb</option>
+                  <option>ml</option><option>L</option><option>pieces</option>
+                </select>
+                <input type="text" class="ing-name" placeholder="Ingredient name" value="all-purpose flour" />
+              </div>
+            </div>
+            <button class="btn-outline" onclick="addIngredientRow()">+ Add Ingredient</button>
+          </div>
+          <button class="btn-primary" onclick="calculatePortions()">Calculate Portions</button>
+          <div class="portion-results" id="portionResults"></div>
+        </div>
+      </div>
+
+      <!-- Temperature Guide -->
+      <div class="tool-panel" id="tool-temp">
+        <div class="temp-guide-grid">
+          <div class="temp-category">
+            <h3>🥩 Meat Internal Temperatures</h3>
+            <div class="temp-table">
+              <div class="temp-row header"><span>Meat</span><span>Rare</span><span>Medium</span><span>Well Done</span></div>
+              <div class="temp-row"><span>Beef Steak</span><span class="temp-rare">52°C / 125°F</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
+              <div class="temp-row"><span>Lamb</span><span class="temp-rare">54°C / 130°F</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">77°C / 170°F</span></div>
+              <div class="temp-row"><span>Pork</span><span class="temp-rare">—</span><span class="temp-med">63°C / 145°F</span><span class="temp-well">71°C / 160°F</span></div>
+              <div class="temp-row"><span>Chicken</span><span class="temp-rare">—</span><span class="temp-med">—</span><span class="temp-well">74°C / 165°F</span></div>
+              <div class="temp-row"><span>Fish</span><span class="temp-rare">—</span><span class="temp-med">57°C / 135°F</span><span class="temp-well">63°C / 145°F</span></div>
+            </div>
+          </div>
+          <div class="temp-category">
+            <h3>🍞 Baking Temperatures</h3>
+            <div class="temp-table">
+              <div class="temp-row header"><span>Item</span><span>°C</span><span>°F</span><span>Gas Mark</span></div>
+              <div class="temp-row"><span>Bread (crusty)</span><span>220°C</span><span>430°F</span><span>7</span></div>
+              <div class="temp-row"><span>Cakes</span><span>175°C</span><span>350°F</span><span>4</span></div>
+              <div class="temp-row"><span>Cookies</span><span>190°C</span><span>375°F</span><span>5</span></div>
+              <div class="temp-row"><span>Croissants</span><span>200°C</span><span>400°F</span><span>6</span></div>
+              <div class="temp-row"><span>Pastry Blind</span><span>200°C</span><span>400°F</span><span>6</span></div>
+              <div class="temp-row"><span>Soufflé</span><span>190°C</span><span>375°F</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="temp-category">
+            <h3>🫒 Oil Smoke Points</h3>
+            <div class="temp-table">
+              <div class="temp-row header"><span>Oil</span><span>Smoke Point</span><span>Best For</span></div>
+              <div class="temp-row"><span>Avocado Oil</span><span>271°C / 520°F</span><span>High-heat frying</span></div>
+              <div class="temp-row"><span>Refined Coconut</span><span>232°C / 450°F</span><span>Sautéing</span></div>
+              <div class="temp-row"><span>Ghee</span><span>252°C / 485°F</span><span>Indian cooking</span></div>
+              <div class="temp-row"><span>Olive Oil</span><span>190°C / 375°F</span><span>Medium heat</span></div>
+              <div class="temp-row"><span>Sesame Oil</span><span>177°C / 350°F</span><span>Finishing</span></div>
+              <div class="temp-row"><span>Butter</span><span>150°C / 302°F</span><span>Low heat</span></div>
+            </div>
+          </div>
+          <div class="temp-category">
+            <h3>🍬 Sugar/Candy Stages</h3>
+            <div class="temp-table">
+              <div class="temp-row header"><span>Stage</span><span>Temperature</span><span>Use</span></div>
+              <div class="temp-row"><span>Thread</span><span>110°C / 230°F</span><span>Syrups</span></div>
+              <div class="temp-row"><span>Soft Ball</span><span>115°C / 240°F</span><span>Fudge, fondant</span></div>
+              <div class="temp-row"><span>Firm Ball</span><span>121°C / 250°F</span><span>Caramels</span></div>
+              <div class="temp-row"><span>Hard Ball</span><span>127°C / 260°F</span><span>Marshmallows</span></div>
+              <div class="temp-row"><span>Hard Crack</span><span>149°C / 300°F</span><span>Toffee, lollipops</span></div>
+              <div class="temp-row"><span>Caramel</span><span>170°C / 338°F</span><span>Creme brûlée</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TECHNIQUES LIBRARY ═══════════════ -->
+  <section class="techniques-section" id="techniques">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Master Class</span>
+        <h2 class="section-title">Chef's Technique Library</h2>
+        <p class="section-subtitle">Master the skills that separate good cooks from great chefs</p>
+      </div>
+      <div class="techniques-grid">
+        <div class="technique-card" onclick="showTechnique('knife')">
+          <div class="technique-icon">🔪</div>
+          <h3>Knife Skills</h3>
+          <p>Julienne, brunoise, chiffonade — precision cuts that transform your presentation</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('sauces')">
+          <div class="technique-icon">🥣</div>
+          <h3>The 5 Mother Sauces</h3>
+          <p>Béchamel, Velouté, Espagnole, Hollandaise & Tomato — the foundation of French cuisine</p>
+          <span class="technique-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('wok')">
+          <div class="technique-icon">🥢</div>
+          <h3>Wok Hei Mastery</h3>
+          <p>The breath of a wok — achieving that smoky, restaurant-quality char at home</p>
+          <span class="technique-level level-advanced">Advanced</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('spices')">
+          <div class="technique-icon">🌶️</div>
+          <h3>Spice Blooming</h3>
+          <p>Unlock maximum flavor from whole spices through proper tempering and blooming</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('bread')">
+          <div class="technique-icon">🍞</div>
+          <h3>Bread & Lamination</h3>
+          <p>Sourdough starters, gluten development, and creating perfect croissant layers</p>
+          <span class="technique-level level-advanced">Advanced</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('emulsion')">
+          <div class="technique-icon">🫙</div>
+          <h3>Emulsification</h3>
+          <p>Master mayonnaise, vinaigrettes, and silky pan sauces that never break</p>
+          <span class="technique-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('stock')">
+          <div class="technique-icon">🍲</div>
+          <h3>Stock & Broth</h3>
+          <p>Building deep, complex flavors that form the soul of great cooking</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('pastry')">
+          <div class="technique-icon">🧁</div>
+          <h3>Pastry Science</h3>
+          <p>Understanding fat, sugar, and gluten for perfect pastry every time</p>
+          <span class="technique-level level-advanced">Advanced</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('grilling')">
+          <div class="technique-icon">🔥</div>
+          <h3>Grilling & BBQ</h3>
+          <p>Two-zone heat, dry brining, and the science of the perfect char</p>
+          <span class="technique-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('braising')">
+          <div class="technique-icon">🍖</div>
+          <h3>Braising & Slow Cook</h3>
+          <p>Turn tough cuts into melt-in-the-mouth masterpieces with time and low heat</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('steaming')">
+          <div class="technique-icon">♨️</div>
+          <h3>Asian Steaming</h3>
+          <p>Bamboo steamers, dim sum, fish and vegetables — the gentlest cooking method</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('maillard')">
+          <div class="technique-icon">🤎</div>
+          <h3>Maillard & Browning</h3>
+          <p>The chemistry of colour, crust, and the flavour you love in every cooked dish</p>
+          <span class="technique-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('deepfrying')">
+          <div class="technique-icon">🍟</div>
+          <h3>Deep Frying Science</h3>
+          <p>Oil temperatures, double-fry technique, and why tempura batter must stay cold</p>
+          <span class="technique-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('plating')">
+          <div class="technique-icon">🎨</div>
+          <h3>Plating & Presentation</h3>
+          <p>Professional techniques for colour, height, sauce work, and finishing touches</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('marinating')">
+          <div class="technique-icon">🫙</div>
+          <h3>Marinating & Curing</h3>
+          <p>Dry rubs, wet marinades, ceviche curing, and timing by protein type</p>
+          <span class="technique-level level-beginner">Beginner</span>
+        </div>
+        <div class="technique-card" onclick="showTechnique('fermentation')">
+          <div class="technique-icon">🫧</div>
+          <h3>Fermentation</h3>
+          <p>Kimchi, miso, lacto-pickles — turning salt and time into complex flavour</p>
+          <span class="technique-level level-advanced">Advanced</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ LUXURY / FINE DINING ═══════════════ -->
+  <section class="luxury-section" id="luxury">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" style="background: linear-gradient(135deg, #FFD700, #FFA500);">★ Fine Dining</span>
+        <h2 class="section-title" style="color: white;">5-Star Luxury Collection</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.7);">Michelin-star recipes demystified for your home kitchen</p>
+      </div>
+      <div class="luxury-grid" id="luxuryGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BAKERY CORNER ═══════════════ -->
+  <section class="bakery-section" id="bakery">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Artisan Bakery</span>
+        <h2 class="section-title">The Bakery Corner</h2>
+        <p class="section-subtitle">Bread, pastries, cakes & confections — baked to perfection</p>
+      </div>
+      <div class="bakery-showcase">
+        <div class="bakery-featured">
+          <div class="bakery-featured-card" onclick="openRecipe('sourdough')">
+            <div class="bakery-card-bg" style="background: linear-gradient(135deg, #92400E, #D97706, #F59E0B);"></div>
+            <div class="bakery-card-content">
+              <span class="bakery-featured-badge">⭐ Editor's Pick</span>
+              <div class="bakery-emoji-large">🍞</div>
+              <h2>Artisan Sourdough</h2>
+              <p>72-hour fermented, open crumb, crispy crust. The holy grail of bread baking.</p>
+              <div class="bakery-meta">
+                <span>⏱️ 72 hours</span>
+                <span>🎯 Advanced</span>
+                <span>⭐⭐⭐⭐⭐</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bakery-grid" id="bakeryGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ MYANMAR KITCHEN SPOTLIGHT ═══════════════ -->
+  <section class="myanmar-section" id="myanmar">
+    <div class="container">
+      <div class="myanmar-inner">
+        <div class="myanmar-left">
+          <span class="section-badge" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9); color: white;">🇲🇲 Hidden Gem</span>
+          <h2 class="section-title">Myanmar Kitchen</h2>
+          <p class="myanmar-desc">Discover the rich, underexplored flavors of Myanmar cuisine — a beautiful blend of Indian, Chinese, and Thai influences with unique local ingredients and traditions.</p>
+          <div class="myanmar-highlights">
+            <div class="myanmar-highlight">
+              <span class="highlight-icon">🐟</span>
+              <div>
+                <strong>Mohinga</strong>
+                <p>Myanmar's national dish — fish broth noodle soup with crispy fritters</p>
+              </div>
+            </div>
+            <div class="myanmar-highlight">
+              <span class="highlight-icon">🌿</span>
+              <div>
+                <strong>Laphet Thohk</strong>
+                <p>Tea leaf salad — a fermented delicacy unlike anything else in the world</p>
+              </div>
+            </div>
+            <div class="myanmar-highlight">
+              <span class="highlight-icon">🍜</span>
+              <div>
+                <strong>Shan Noodles</strong>
+                <p>Tomato-based noodles from the Shan hills — simple, bold, satisfying</p>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="filterByCuisine('myanmar')">Explore Myanmar Recipes</button>
+        </div>
+        <div class="myanmar-right">
+          <div class="myanmar-cards" id="myanmarCards"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ YOUTUBE VIDEO GALLERY ═══════════════ -->
+  <section class="videos-section" id="videos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">🎬 Watch & Cook</span>
+        <h2 class="section-title">Learn from the Best</h2>
+        <p class="section-subtitle">Watch master chefs demonstrate these recipes — pause, rewind, and cook along in real time</p>
+      </div>
+      <div class="video-cuisine-tabs">
+        <button class="vid-tab active" onclick="switchVideoTab('all', this)">🌍 All</button>
+        <button class="vid-tab" onclick="switchVideoTab('indian', this)">🇮🇳 Indian</button>
+        <button class="vid-tab" onclick="switchVideoTab('chinese', this)">🇨🇳 Chinese</button>
+        <button class="vid-tab" onclick="switchVideoTab('thai', this)">🇹🇭 Thai</button>
+        <button class="vid-tab" onclick="switchVideoTab('vietnamese', this)">🇻🇳 Vietnamese</button>
+        <button class="vid-tab" onclick="switchVideoTab('korean', this)">🇰🇷 Korean</button>
+        <button class="vid-tab" onclick="switchVideoTab('myanmar', this)">🇲🇲 Myanmar</button>
+        <button class="vid-tab" onclick="switchVideoTab('bakery', this)">🥐 Bakery</button>
+        <button class="vid-tab" onclick="switchVideoTab('luxury', this)">⭐ Luxury</button>
+        <button class="vid-tab" onclick="switchVideoTab('coffee', this)">☕ Coffee</button>
+      </div>
+      <div class="videos-grid" id="videosGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 30-DAY PERSONALISED DIET PLAN ═══════════════ -->
+  <section class="meal-plan-section" id="meal-plan">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">🍽️ Personalised</span>
+        <h2 class="section-title">30-Day Personalised Diet Plan</h2>
+        <p class="section-subtitle">Choose your diet style — AI generates a tailored 30-day plan from today. Click any meal to see the full recipe.</p>
+      </div>
+
+      <!-- BMR / TDEE Calculator -->
+      <div class="bmr-calculator" id="bmrCalc">
+        <button class="bmr-toggle" onclick="toggleBMR()">
+          <span>📊 Calculate My Personal Calorie Needs</span>
+          <span id="bmrArrow">▼</span>
+        </button>
+        <div class="bmr-panel" id="bmrPanel">
+          <div class="bmr-inputs">
+            <div class="bmr-field">
+              <label>Age</label>
+              <input type="number" id="bmrAge" placeholder="25" min="15" max="90">
+            </div>
+            <div class="bmr-field">
+              <label>Weight (kg)</label>
+              <input type="number" id="bmrWeight" placeholder="70" min="30" max="250">
+            </div>
+            <div class="bmr-field">
+              <label>Height (cm)</label>
+              <input type="number" id="bmrHeight" placeholder="170" min="100" max="250">
+            </div>
+            <div class="bmr-field">
+              <label>Sex</label>
+              <div class="bmr-sex-btns">
+                <button class="bmr-sex-btn active" onclick="setBMRSex('male',this)">♂ Male</button>
+                <button class="bmr-sex-btn" onclick="setBMRSex('female',this)">♀ Female</button>
+              </div>
+            </div>
+          </div>
+          <div class="bmr-activity">
+            <label>Activity Level</label>
+            <div class="bmr-activity-btns">
+              <button class="bmr-act-btn active" data-factor="1.2"   onclick="setBMRAct(1.2,this)">😴 Sedentary<small>Desk job, little exercise</small></button>
+              <button class="bmr-act-btn"         data-factor="1.375" onclick="setBMRAct(1.375,this)">🚶 Light<small>1–3 days/week</small></button>
+              <button class="bmr-act-btn"         data-factor="1.55"  onclick="setBMRAct(1.55,this)">🏃 Moderate<small>3–5 days/week</small></button>
+              <button class="bmr-act-btn"         data-factor="1.725" onclick="setBMRAct(1.725,this)">💪 Active<small>6–7 days/week</small></button>
+              <button class="bmr-act-btn"         data-factor="1.9"   onclick="setBMRAct(1.9,this)">🏋️ Very Active<small>Physical job + daily exercise</small></button>
+            </div>
+          </div>
+          <button class="bmr-calc-btn" onclick="calculateBMR()">Calculate My Needs</button>
+          <div class="bmr-result" id="bmrResult"></div>
+        </div>
+      </div>
+
+      <!-- Diet Type Selector -->
+      <div class="diet-type-selector">
+        <label class="diet-type-label">Choose Your Diet</label>
+        <div class="diet-type-options">
+          <button class="diet-type-btn active" data-diet="balanced"      onclick="setDietType('balanced', this)">🌿 Balanced</button>
+          <button class="diet-type-btn"         data-diet="keto"          onclick="setDietType('keto', this)">🥑 Keto</button>
+          <button class="diet-type-btn"         data-diet="high-protein"  onclick="setDietType('high-protein', this)">💪 High-Protein</button>
+          <button class="diet-type-btn"         data-diet="mediterranean" onclick="setDietType('mediterranean', this)">🫒 Mediterranean</button>
+          <button class="diet-type-btn"         data-diet="low-carb"      onclick="setDietType('low-carb', this)">🥗 Low-Carb</button>
+          <button class="diet-type-btn"         data-diet="vegan"         onclick="setDietType('vegan', this)">🌱 Vegan</button>
+        </div>
+      </div>
+
+      <div class="meal-plan-controls">
+        <div class="calorie-selector">
+          <label>Daily Calorie Target</label>
+          <div class="cal-options">
+            <button class="cal-btn" data-cal="1200" onclick="setCalTarget(1200, this)">
+              1200 kcal<small>Aggressive</small>
+            </button>
+            <button class="cal-btn active" data-cal="1500" onclick="setCalTarget(1500, this)">
+              1500 kcal<small>Balanced ★</small>
+            </button>
+            <button class="cal-btn" data-cal="1800" onclick="setCalTarget(1800, this)">
+              1800 kcal<small>Gentle</small>
+            </button>
+          </div>
+        </div>
+        <button class="meal-plan-gen-btn" id="genPlanBtn" onclick="generateAIDietPlan()">
+          <span>✨</span> Generate My Diet Plan
+        </button>
+      </div>
+
+      <div class="meal-plan-grid" id="mealPlanGrid">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Meal Adherence Panel -->
+      <div class="adherence-panel" id="adherencePanel">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Grocery List Generator -->
+      <div class="grocery-section">
+        <div class="grocery-header">
+          <div>
+            <h3 class="grocery-title">🛒 Grocery List</h3>
+            <p class="grocery-sub">Auto-generate a shopping list from your diet plan by week</p>
+          </div>
+          <div class="grocery-controls">
+            <div class="week-selector">
+              <button class="week-btn active" onclick="setGroceryWeek(1,this)">Week 1</button>
+              <button class="week-btn" onclick="setGroceryWeek(2,this)">Week 2</button>
+              <button class="week-btn" onclick="setGroceryWeek(3,this)">Week 3</button>
+              <button class="week-btn" onclick="setGroceryWeek(4,this)">Week 4</button>
+            </div>
+            <button class="grocery-gen-btn" onclick="generateGroceryList()">🛒 Generate List</button>
+          </div>
+        </div>
+        <div class="grocery-list" id="groceryList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Reviews</span>
+        <h2 class="section-title">What Our Cooks Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"The AI Chef helped me replicate my grandmother's mohinga recipe with perfect proportions. I cried when I tasted it — it was exactly right!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👩‍🍳</div>
+            <div><strong>May Thu Win</strong><span>Home Cook, Yangon</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"The measurement converter and portion calculator saved my dinner party. Scaled up the biryani recipe for 20 people flawlessly!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👨‍🍳</div>
+            <div><strong>Rajesh Kumar</strong><span>Food Enthusiast, Mumbai</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"I followed the Beef Wellington recipe step-by-step and my family thought I ordered it from a 5-star restaurant. Absolutely mind-blowing!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👩</div>
+            <div><strong>Sarah Mitchell</strong><span>Amateur Chef, London</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"The technique library taught me wok hei in a single afternoon. My fried rice now has that smoky restaurant flavor. This app is gold!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👨</div>
+            <div><strong>Wei Chen</strong><span>Culinary Student, Singapore</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ NEWSLETTER ═══════════════ -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-inner">
+        <div class="newsletter-icon">📬</div>
+        <h2>Get Weekly Recipes & Chef Tips</h2>
+        <p>Join 50,000+ food lovers receiving curated recipes, techniques, and AI cooking insights every week</p>
+        <div class="newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email address" />
+          <button class="btn-primary" onclick="subscribeNewsletter()">Subscribe Free</button>
+        </div>
+        <p class="newsletter-note">No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <span class="logo-icon">🍽️</span>
+            <span class="logo-text">Culinary<span class="logo-accent">AI</span></span>
+          </div>
+          <p>Your AI-powered kitchen companion for world-class cooking at home. Mastering flavors from every corner of the globe.</p>
+          <div class="footer-social">
+            <span>📘</span><span>📸</span><span>🐦</span><span>▶️</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Cuisines</h4>
+          <ul>
+            <li><a href="#" onclick="filterByCuisine('indian')">Indian</a></li>
+            <li><a href="#" onclick="filterByCuisine('chinese')">Chinese</a></li>
+            <li><a href="#" onclick="filterByCuisine('thai')">Thai</a></li>
+            <li><a href="#" onclick="filterByCuisine('vietnamese')">Vietnamese</a></li>
+            <li><a href="#" onclick="filterByCuisine('myanmar')">Myanmar</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="#tools">Unit Converter</a></li>
+            <li><a href="#tools">Cooking Timer</a></li>
+            <li><a href="#tools">Substitution Guide</a></li>
+            <li><a href="#tools">Portion Calculator</a></li>
+            <li><a href="#tools">Temperature Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#techniques">Knife Skills</a></li>
+            <li><a href="#techniques">Mother Sauces</a></li>
+            <li><a href="#techniques">Wok Hei</a></li>
+            <li><a href="#techniques">Bread Baking</a></li>
+            <li><a href="#techniques">Pastry Science</a></li>
+          </ul>
+        </div>
+
+        <!-- Developer / Creator Card -->
+        <div class="footer-col footer-creator-col">
+          <h4>Creator</h4>
+          <div class="creator-card">
+            <div class="creator-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions" class="creator-avatar-img"></div>
+            <div class="creator-name">Mr. Kyaw Zin Tun</div>
+            <a class="creator-email" href="mailto:itsolutions.mm@gmail.com">itsolutions.mm@gmail.com</a>
+            <div class="creator-skills">
+              <span class="creator-skill">🤖 AI Automation</span>
+              <span class="creator-skill">🔗 N8N</span>
+              <span class="creator-skill">⚙️ Make</span>
+              <span class="creator-skill">🌐 Networking</span>
+              <span class="creator-skill">☁️ Cloud</span>
+            </div>
+            <button class="creator-coffee-btn" onclick="openDonate()">☕ Buy Me a Coffee</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Creator Brand Bar -->
+      <div class="creator-brand-bar">
+        <div class="creator-brand-left">
+          <span class="creator-brand-avatar"><img src="itsolutoin logo.jpg" alt="IT Solutions" class="creator-avatar-img"></span>
+          <div>
+            <div class="creator-brand-name">Built by Mr. Kyaw Zin Tun</div>
+            <div class="creator-brand-sub">AI Automation · N8N · Make · Networking · Cloud</div>
+          </div>
+        </div>
+        <div class="creator-brand-actions">
+          <a href="mailto:itsolutions.mm@gmail.com" class="creator-brand-email">
+            ✉️ itsolutions.mm@gmail.com
+          </a>
+          <button class="creator-brand-coffee" onclick="openDonate()">☕ Support</button>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 CulinaryAI — Designed &amp; Built by <strong style="color:var(--primary-light)">Mr. Kyaw Zin Tun</strong></p>
+        <p>AI Automation · N8N · Make · Networking · Cloud Solutions</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════ AI CHAT MODAL ═══════════════ -->
+  <div class="chat-overlay" id="chatOverlay" onclick="closeChat(event)">
+    <div class="chat-modal" id="chatModal">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-header-left">
+          <div class="ai-avatar" id="aiAvatarPulse">👨‍🍳</div>
+          <div>
+            <div class="chat-title">Chef AI
+              <span class="ai-engine-badge" id="aiEngineBadge">⚡ GPT-4o</span>
+            </div>
+            <div class="chat-subtitle">
+              <span class="status-dot" id="chatStatusDot"></span>
+              <span id="chatStatusText">OpenAI GPT-4o — Cooking Expert</span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-settings-btn" onclick="openKeySettings()" title="API Settings">⚙️</button>
+          <button class="chat-close" onclick="closeChat()">✕</button>
+        </div>
+      </div>
+
+      <!-- API Key Settings Panel (collapsible) -->
+      <div class="key-settings-panel" id="keySettingsPanel">
+        <div class="key-settings-inner">
+          <div class="key-settings-title">🔑 OpenAI API Key</div>
+          <p class="key-settings-desc">Enter your OpenAI API key to enable real AI responses. Leave blank to use built-in AI.</p>
+          <div class="key-input-row">
+            <input type="password" id="openaiKeyInput" placeholder="sk-proj-..." autocomplete="off" />
+            <button class="key-save-btn" onclick="saveOpenAIKey()">Save</button>
+            <button class="key-clear-btn" onclick="clearOpenAIKey()">Clear</button>
+          </div>
+          <div class="key-info-row">
+            <span class="key-model-tag">Model: gpt-4o-mini</span>
+            <span class="key-scope-tag">🍳 Cooking topics only</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topic Guard Notice -->
+      <div class="topic-guard-banner">
+        🍳 <strong>Chef AI is cooking-only.</strong> Ask about recipes, techniques, nutrition, calories, substitutions & cuisines.
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg ai-msg">
+          <div class="msg-avatar">👨‍🍳</div>
+          <div class="msg-content">
+            <p>Welcome! I'm <strong>Chef AI</strong>, powered by OpenAI GPT-4o 🎉</p>
+            <p>I'm exclusively focused on <strong>cooking and nutrition</strong> — no other topics. Ask me about:</p>
+            <ul>
+              <li>🍛 Recipes from Indian, Chinese, Thai, Vietnamese, Myanmar, Bakery & Luxury cuisines</li>
+              <li>🔥 Calorie counts & full nutrition breakdowns</li>
+              <li>🔄 Ingredient substitutions & dietary adaptations</li>
+              <li>👨‍🍳 Professional cooking techniques step-by-step</li>
+              <li>🌡️ Temperature, timing & food safety guidance</li>
+            </ul>
+            <p>What would you like to cook today? 🍽️</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div class="chat-suggestions">
+        <button class="chat-suggestion" onclick="sendSuggestion('What can I make with chicken and coconut milk?')">🥥 Coconut chicken</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How many calories in butter chicken per serving?')">🔥 Calorie check</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How do I get authentic wok hei at home?')">🥢 Wok hei secrets</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('What is a good substitute for eggs in baking?')">🥚 Egg substitutes</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('Give me a high-protein low-carb dinner idea')">💪 High-protein meal</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How do I make authentic Mohinga from Myanmar?')">🐟 Myanmar Mohinga</button>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Ask anything about cooking..." onkeydown="if(event.key==='Enter') sendMessage()" />
+        <button class="chat-send-btn" onclick="sendMessage()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ RECIPE MODAL ═══════════════ -->
+  <div class="recipe-overlay" id="recipeOverlay" onclick="closeRecipe(event)">
+    <div class="recipe-modal" id="recipeModal">
+      <button class="recipe-close" onclick="closeRecipe()">✕</button>
+      <div class="recipe-modal-content" id="recipeModalContent"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TECHNIQUE MODAL ═══════════════ -->
+  <div class="technique-overlay" id="techniqueOverlay" onclick="closeTechnique(event)">
+    <div class="technique-modal" id="techniqueModal">
+      <button class="recipe-close" onclick="closeTechnique()">✕</button>
+      <div class="technique-modal-content" id="techniqueModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Floating AI Button -->
+  <button class="floating-ai-btn" id="floatingAiBtn" onclick="openChat()">
+    <span>👨‍🍳</span>
+    <div class="floating-ai-tooltip">Ask AI Chef</div>
+  </button>
+
+  <!-- Floating Coffee / Donate Button -->
+  <button class="floating-coffee-btn" id="floatingCoffeeBtn" onclick="openDonate()">
+    <span>☕</span>
+    <div class="floating-coffee-tooltip">Support Creator</div>
+  </button>
+
+  <!-- ═══════════════ DONATE MODAL ═══════════════ -->
+  <div class="donate-overlay" id="donateOverlay" onclick="closeDonate(event)">
+    <div class="donate-modal" id="donateModal">
+      <button class="donate-close" onclick="closeDonate()">✕</button>
+
+      <!-- Header -->
+      <div class="donate-header">
+        <div class="donate-coffee-icon">☕</div>
+        <h2 class="donate-title">Buy Me a Coffee</h2>
+        <p class="donate-sub">If CulinaryAI helped your cooking, support the creator with a small donation. Every cup counts! 🙏</p>
+      </div>
+
+      <!-- Payment Tabs -->
+      <div class="donate-tabs">
+        <button class="donate-tab active" id="tabScb" onclick="switchDonateTab('scb')">
+          🇹🇭 SCB Thailand
+        </button>
+        <button class="donate-tab" id="tabKpay" onclick="switchDonateTab('kpay')">
+          🇲🇲 KPay Myanmar
+        </button>
+      </div>
+
+      <!-- SCB Panel -->
+      <div class="donate-panel active" id="donateScb">
+        <div class="donate-bank-badge scb-badge">
+          <span class="bank-logo">🏦</span>
+          <div>
+            <div class="bank-name">Siam Commercial Bank</div>
+            <div class="bank-sub">ธนาคารไทยพาณิชย์ · PromptPay</div>
+          </div>
+        </div>
+
+        <!-- Account Details -->
+        <div class="donate-account-row">
+          <div class="donate-account-info">
+            <span class="donate-account-label">Account Holder</span>
+            <span class="donate-account-name">KYAW ZIN TUN</span>
+          </div>
+        </div>
+        <div class="donate-account-row">
+          <div class="donate-account-info">
+            <span class="donate-account-label">Account Number</span>
+            <span class="donate-account-num" id="scbAccount">816-288865-1</span>
+          </div>
+          <button class="donate-copy-btn" onclick="copyDonateAccount('scbAccount', this)">
+            📋 Copy
+          </button>
+        </div>
+        <p class="donate-note">Open SCB app → Transfer → Enter account number above.</p>
+      </div>
+
+      <!-- KPay Panel -->
+      <div class="donate-panel" id="donateKpay">
+        <div class="donate-bank-badge kpay-badge">
+          <span class="bank-logo">💜</span>
+          <div>
+            <div class="bank-name">KBZ Pay (KPay)</div>
+            <div class="bank-sub">ကေပေး · Myanmar Mobile Wallet</div>
+          </div>
+        </div>
+
+        <!-- Account Details -->
+        <div class="donate-account-row">
+          <div class="donate-account-info">
+            <span class="donate-account-label">Account Holder</span>
+            <span class="donate-account-name">U Kyaw Zin Htun</span>
+          </div>
+        </div>
+        <div class="donate-account-row">
+          <div class="donate-account-info">
+            <span class="donate-account-label">KPay Phone Number</span>
+            <span class="donate-account-num" id="kpayAccount">095043252</span>
+          </div>
+          <button class="donate-copy-btn" onclick="copyDonateAccount('kpayAccount', this)">
+            📋 Copy
+          </button>
+        </div>
+        <p class="donate-note">Open KBZ Pay → Send Money → Enter phone number above.</p>
+      </div>
+
+      <!-- Footer note -->
+      <div class="donate-footer-note">
+        <span>💛</span> Thank you for supporting independent developers!
+        Any amount — big or small — is deeply appreciated.
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
