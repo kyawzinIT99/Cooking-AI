@@ -3919,7 +3919,7 @@ function renderVideos(filter) {
   const ytSearchBase = 'https://www.youtube.com/results?search_query=';
   const ytWatchBase = 'https://www.youtube.com/watch?v=';
   grid.innerHTML = list.map((v, idx) => `
-    < div class="video-card" id = "vcard-${idx}" >
+    <div class="video-card" id="vcard-${idx}">
       <div class="video-thumb-wrapper" id="vthumb-${idx}" onclick="playVideo(${idx})" style="cursor:pointer">
         <img
           src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg"
