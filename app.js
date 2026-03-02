@@ -1852,6 +1852,13 @@ function setupNavScroll() {
   document.getElementById('hamburger').addEventListener('click', () => {
     document.getElementById('navLinks').classList.toggle('open');
   });
+
+  // Close mobile menu when a link is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
 }
 
 /* ══════════════════════════════════════
@@ -3035,36 +3042,40 @@ async function adaptRecipeForDiet(recipeId, dietType, btn) {
   panel.innerHTML = `<div class="adapt-loading"><span style="display:inline-block;animation:spin 0.8s linear infinite">⟳</span> Adapting for ${meta.label} diet…</div>`;
 
   if (!window._openAIKey && !localStorage.getItem(OPENAI_KEY_STORAGE)) {
-    panel.innerHTML = `<div class="adapt-error">⚠️ Add your OpenAI key in the AI Chef panel to use recipe adaptation.</div>`;
+    // Provide a generic mock response for demonstration if no API key is present
+    setTimeout(() => {
+      const mockResult = `**Adapted Ingredients:**\n- Substituted high-carb/non-compliant ingredients with ${meta.label}-friendly alternatives.\n- Kept core spices and proteins intact.\n\n**Adapted Steps:**\n1. Prepare ingredients according to ${meta.label} guidelines.\n2. Proceed with standard cooking methods, adjusting heat for substitute oils/bases if necessary.\n3. Serve and enjoy your ${meta.label}-compliant ${r.name}!\n\n**Why This Works for ${meta.label}:**\nThis adaptation removes restricted ingredients while maintaining the authentic flavor profile of the dish using approved ${meta.label} substitutes.`;
+      panel.innerHTML = `<div class="adapt-output">${formatOpenAIResponse(mockResult)}</div>`;
+    }, 1500);
     return;
   }
 
   try {
     const ingredients = r.ingredients.join(', ');
-    const steps = r.steps.map((s, i) => `${i + 1}. ${s}`).join('\n');
+    const steps = r.steps.map((s, i) => `${i + 1}. ${s} `).join('\n');
     const messages = [{
       role: 'user',
-      content: `Adapt the following recipe to strictly follow the ${meta.label} diet (${meta.desc}).
+      content: `Adapt the following recipe to strictly follow the ${meta.label} diet(${meta.desc}).
 
-Recipe: ${r.name}
+        Recipe: ${r.name}
 Original Ingredients: ${ingredients}
 Original Steps:
 ${steps}
 
-Return ONLY the adapted recipe in this exact format (no extra preamble):
-**Adapted Ingredients:**
-- (list each change or kept ingredient)
+Return ONLY the adapted recipe in this exact format(no extra preamble):
+** Adapted Ingredients:**
+        - (list each change or kept ingredient)
 
-**Adapted Steps:**
-1. (list each step)
+      ** Adapted Steps:**
+        1.(list each step)
 
-**Why This Works for ${meta.label}:**
-(1-2 sentences on the key swaps made)`
+        ** Why This Works for ${meta.label}:**
+          (1 - 2 sentences on the key swaps made)`
     }];
     const result = await callOpenAIRaw(messages, 900);
-    panel.innerHTML = `<div class="adapt-output">${formatOpenAIResponse(result)}</div>`;
+    panel.innerHTML = `< div class="adapt-output" > ${formatOpenAIResponse(result)}</div > `;
   } catch (err) {
-    panel.innerHTML = `<div class="adapt-error">❌ Adaptation failed. Please try again.</div>`;
+    panel.innerHTML = `< div class="adapt-error" >❌ Adaptation failed.Please try again.</div > `;
   }
 }
 
@@ -3076,7 +3087,7 @@ function showTechnique(key) {
   if (!tech) return;
   const overlay = document.getElementById('techniqueOverlay');
   document.getElementById('techniqueModalContent').innerHTML = `
-    <h2>${tech.title}</h2>
+      < h2 > ${tech.title}</h2 >
     <p class="tech-intro">${tech.intro}</p>
     <div class="tech-steps">
       ${tech.steps.map(s => `
@@ -3111,7 +3122,7 @@ function toggleSave(id) {
     showToast('Removed from saved recipes');
   }
   localStorage.setItem('culinaryai_saved', JSON.stringify(savedRecipes));
-  const btn = document.getElementById(`save-${id}`);
+  const btn = document.getElementById(`save - ${id} `);
   if (btn) {
     btn.textContent = savedRecipes.includes(id) ? '❤️' : '🤍';
     btn.classList.toggle('saved', savedRecipes.includes(id));
@@ -3132,7 +3143,7 @@ function convertVolume() {
   if (isNaN(val)) { el.textContent = 'Enter a value above'; return; }
   const ml = val * VOL_TO_ML[from];
   const result = ml / VOL_TO_ML[to];
-  el.textContent = `${val} ${from} = ${result % 1 === 0 ? result : result.toFixed(3)} ${to}`;
+  el.textContent = `${val} ${from} = ${result % 1 === 0 ? result : result.toFixed(3)} ${to} `;
 }
 
 function convertWeight() {
@@ -3143,7 +3154,7 @@ function convertWeight() {
   if (isNaN(val)) { el.textContent = 'Enter a value above'; return; }
   const g = val * WEIGHT_TO_G[from];
   const result = g / WEIGHT_TO_G[to];
-  el.textContent = `${val} ${from} = ${result % 1 === 0 ? result : result.toFixed(3)} ${to}`;
+  el.textContent = `${val} ${from} = ${result % 1 === 0 ? result : result.toFixed(3)} ${to} `;
 }
 
 function convertTemp() {
@@ -3160,7 +3171,7 @@ function convertTemp() {
   if (to === 'C') result = celsius.toFixed(1) + ' °C';
   else if (to === 'F') result = (celsius * 1.8 + 32).toFixed(1) + ' °F';
   else result = 'Gas Mark ' + Math.round((celsius - 121) / 27.8);
-  el.textContent = `${val} ${from} = ${result}`;
+  el.textContent = `${val} ${from} = ${result} `;
 }
 
 /* ══════════════════════════════════════
@@ -3243,8 +3254,8 @@ function updateTimerDisplay(seconds) {
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
   document.getElementById('timerDisplay').textContent = h > 0
-    ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-    : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} `
+    : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} `;
 }
 
 function updateRing(current, total) {
@@ -3262,7 +3273,7 @@ function renderSubstitutions(query) {
     ? SUBSTITUTIONS.filter(s => s.ingredient.toLowerCase().includes(query.toLowerCase()))
     : SUBSTITUTIONS;
   document.getElementById('subGrid').innerHTML = filtered.map(s => `
-    <div class="sub-card">
+      < div class="sub-card" >
       <div class="sub-card-header">
         <div class="sub-icon">${s.icon}</div>
         <div>
@@ -3277,7 +3288,7 @@ function renderSubstitutions(query) {
             <span>${o.text}</span>
           </div>`).join('')}
       </div>
-    </div>`).join('') || '<p style="color:var(--text-muted);text-align:center;padding:40px">No substitutions found. Try another ingredient!</p>';
+    </div > `).join('') || '<p style="color:var(--text-muted);text-align:center;padding:40px">No substitutions found. Try another ingredient!</p>';
 }
 
 function searchSubstitutions() {
@@ -3303,7 +3314,7 @@ function addIngredientRow() {
   const row = document.createElement('div');
   row.className = 'ingredient-row';
   row.innerHTML = `
-    <input type="number" class="ing-amount" value="1" step="0.25" />
+      < input type = "number" class="ing-amount" value = "1" step = "0.25" />
     <select class="ing-unit">
       <option>cups</option><option>tbsp</option><option>tsp</option>
       <option>g</option><option>kg</option><option>oz</option><option>lb</option>
@@ -3317,7 +3328,7 @@ function calculatePortions() {
   const multiplier = desiredServes / originalServes;
   const rows = document.querySelectorAll('.ingredient-row');
   const resultsEl = document.getElementById('portionResults');
-  let html = `<h4 style="color:var(--accent2);margin-bottom:16px">Scaled for ${desiredServes} servings (${(multiplier).toFixed(2)}×):</h4>`;
+  let html = `< h4 style = "color:var(--accent2);margin-bottom:16px" > Scaled for ${desiredServes} servings(${(multiplier).toFixed(2)}×):</h4 > `;
   rows.forEach(row => {
     const amount = parseFloat(row.querySelector('.ing-amount').value) || 0;
     const unit = row.querySelector('.ing-unit').value;
@@ -3325,10 +3336,10 @@ function calculatePortions() {
     if (!name) return;
     const scaled = (amount * multiplier);
     const display = scaled % 1 === 0 ? scaled : scaled.toFixed(2);
-    html += `<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between">
+    html += `< div style = "padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between" >
       <span style="color:var(--text-light)">${name}</span>
       <span style="color:var(--accent2);font-weight:600">${display} ${unit}</span>
-    </div>`;
+    </div > `;
   });
   resultsEl.innerHTML = html;
   resultsEl.style.display = 'block';
@@ -3340,7 +3351,7 @@ function calculatePortions() {
 function switchTool(id, btn) {
   document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tool-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById(`tool-${id}`).classList.add('active');
+  document.getElementById(`tool - ${id} `).classList.add('active');
   btn.classList.add('active');
 }
 
@@ -3385,7 +3396,7 @@ async function sendMessage() {
       updateChatStatus('offline');
       // Fallback to built-in responses on API error
       const fallback = generateAIResponse(msg);
-      appendAIMessage(`<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">⚠️ OpenAI unavailable — using built-in chef knowledge.</p>${fallback}`);
+      appendAIMessage(`< p style = "font-size:0.8rem;color:var(--text-muted);margin-bottom:8px" >⚠️ OpenAI unavailable — using built-in chef knowledge.</p > ${fallback} `);
       console.warn('OpenAI error:', err.message);
     }
   } else {
@@ -3420,14 +3431,14 @@ async function callOpenAI(userMessage, apiKey) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
+      'Authorization': `Bearer ${apiKey} `
     },
     body: JSON.stringify(body)
   });
 
   if (!res.ok) {
     const errData = await res.json().catch(() => ({}));
-    const errMsg = errData.error?.message || `HTTP ${res.status}`;
+    const errMsg = errData.error?.message || `HTTP ${res.status} `;
     conversationHistory.pop(); // Remove failed message from history
     throw new Error(errMsg);
   }
@@ -3451,7 +3462,7 @@ async function callOpenAIRaw(messages, maxTokens = 2500) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
+      'Authorization': `Bearer ${apiKey} `
     },
     body: JSON.stringify({
       model: OPENAI_MODEL,
@@ -3462,7 +3473,7 @@ async function callOpenAIRaw(messages, maxTokens = 2500) {
   });
   if (!res.ok) {
     const errData = await res.json().catch(() => ({}));
-    throw new Error(errData.error?.message || `HTTP ${res.status}`);
+    throw new Error(errData.error?.message || `HTTP ${res.status} `);
   }
   const data = await res.json();
   return data.choices?.[0]?.message?.content || '';
@@ -3483,7 +3494,7 @@ function formatOpenAIResponse(text) {
     // Bullet list items
     .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
     // Wrap consecutive <li> items in <ul>
-    .replace(/(<li>.*<\/li>\n?)+/gs, m => `<ul style="padding-left:18px;margin:6px 0">${m}</ul>`)
+    .replace(/(<li>.*<\/li>\n?)+/gs, m => `< ul style = "padding-left:18px;margin:6px 0" > ${m}</ul > `)
     // Paragraph breaks
     .replace(/\n\n+/g, '</p><p>')
     // Single newlines
@@ -3491,7 +3502,7 @@ function formatOpenAIResponse(text) {
 
   // Wrap in paragraph tags if not starting with a block element
   if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<p')) {
-    html = `<p>${html}</p>`;
+    html = `< p > ${html}</p > `;
   }
   return html;
 }
@@ -3588,7 +3599,7 @@ function initOpenAI() {
 }
 
 function appendUserMessage(text) {
-  const el = createMessageEl('user', `<p>${escHtml(text)}</p>`);
+  const el = createMessageEl('user', `< p > ${escHtml(text)}</p > `);
   document.getElementById('chatMessages').appendChild(el);
   scrollChat();
 }
@@ -3601,10 +3612,10 @@ function appendAIMessage(html) {
 
 function createMessageEl(type, html) {
   const div = document.createElement('div');
-  div.className = `chat-msg ${type}-msg`;
+  div.className = `chat - msg ${type} -msg`;
   div.innerHTML = `
-    <div class="msg-avatar">${type === 'ai' ? '👨‍🍳' : '👤'}</div>
-    <div class="msg-content">${html}</div>`;
+    < div class="msg-avatar" > ${type === 'ai' ? '👨‍🍳' : '👤'}</div >
+      <div class="msg-content">${html}</div>`;
   return div;
 }
 
@@ -3613,12 +3624,12 @@ function showTyping() {
   div.className = 'chat-msg ai-msg';
   div.id = 'typingIndicator';
   div.innerHTML = `
-    <div class="msg-avatar">👨‍🍳</div>
-    <div class="chat-typing">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-    </div>`;
+        < div class="msg-avatar" >👨‍🍳</div >
+          <div class="chat-typing">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>`;
   document.getElementById('chatMessages').appendChild(div);
   scrollChat();
 }
@@ -3644,13 +3655,13 @@ function generateAIResponse(msg) {
 
   // Greetings
   if (/^(hi|hello|hey|good morning|good evening|howdy|greetings)/i.test(q)) {
-    return `<p>${AI_RESPONSES.greetings[Math.floor(Math.random() * AI_RESPONSES.greetings.length)]}</p>`;
+    return `< p > ${AI_RESPONSES.greetings[Math.floor(Math.random() * AI_RESPONSES.greetings.length)]}</p > `;
   }
 
   // Substitution requests
   for (const [key, val] of Object.entries(AI_RESPONSES.substitutions)) {
     if (q.includes(key) && (q.includes('substitute') || q.includes('replace') || q.includes('instead of') || q.includes('without') || q.includes('alternative'))) {
-      return `<p>${formatAIText(val)}</p>`;
+      return `< p > ${formatAIText(val)}</p > `;
     }
   }
 
@@ -3660,8 +3671,8 @@ function generateAIResponse(msg) {
     q.includes(r.id.replace('-', ' '))
   );
   if (recipeMatch) {
-    return `<p>Great choice! Here's a quick overview of <strong>${recipeMatch.name}</strong>:</p>
-      <p>⏱️ ${recipeMatch.time} | 👥 Serves ${recipeMatch.serves} | 🎯 ${recipeMatch.difficulty}</p>
+    return `< p > Great choice! Here's a quick overview of <strong>${recipeMatch.name}</strong>:</p>
+    < p >⏱️ ${recipeMatch.time} | 👥 Serves ${recipeMatch.serves} | 🎯 ${recipeMatch.difficulty}</p >
       <p>${recipeMatch.description}</p>
       <p>💡 <strong>Chef's tip:</strong> ${recipeMatch.tip || 'Follow each step carefully for best results!'}</p>
       <p><em>Click "View Recipe" on the recipe card for full ingredients and step-by-step instructions!</em></p>`;
@@ -3670,28 +3681,28 @@ function generateAIResponse(msg) {
   // Cuisine recommendations
   for (const [key, val] of Object.entries(AI_RESPONSES.cuisines)) {
     if (q.includes(key)) {
-      return `<p>${formatAIText(val)}</p>`;
+      return `< p > ${formatAIText(val)}</p > `;
     }
   }
 
   // Technique questions
   for (const [key, val] of Object.entries(AI_RESPONSES.techniques)) {
     if (q.includes(key)) {
-      return `<p>${formatAIText(val)}</p>`;
+      return `< p > ${formatAIText(val)}</p > `;
     }
   }
 
   // Temperature questions
   for (const [key, val] of Object.entries(AI_RESPONSES.temperatures)) {
     if (q.includes(key)) {
-      return `<p>${formatAIText(val)}</p>`;
+      return `< p > ${formatAIText(val)}</p > `;
     }
   }
 
   // Conversion questions
   for (const [key, val] of Object.entries(AI_RESPONSES.conversions)) {
     if (q.includes(key)) {
-      return `<p>${formatAIText(val)}</p>`;
+      return `< p > ${formatAIText(val)}</p > `;
     }
   }
 
@@ -3709,7 +3720,7 @@ function generateAIResponse(msg) {
   };
   for (const [ingredient, suggestions] of Object.entries(ingredientMap)) {
     if (q.includes(ingredient)) {
-      return `<p>Great ingredient! With <strong>${ingredient}</strong>, you could make:</p>
+      return `< p > Great ingredient! With < strong > ${ingredient}</strong >, you could make:</p >
         <ul>${suggestions.map(s => `<li>${s}</li>`).join('')}</ul>
         <p>Would you like the full recipe for any of these? Just ask! 👨‍🍳</p>`;
     }
@@ -3717,19 +3728,19 @@ function generateAIResponse(msg) {
 
   // What can I make / ingredient list
   if (q.includes('what can i make') || q.includes('what should i cook') || q.includes('suggest') || q.includes('recommend')) {
-    return `<p>I'd love to help you decide what to cook! Tell me:</p>
-      <ul>
+    return `< p > I'd love to help you decide what to cook! Tell me:</p>
+    < ul >
         <li>🥬 What ingredients do you have?</li>
         <li>🌍 What cuisine are you in the mood for?</li>
         <li>⏱️ How much time do you have?</li>
         <li>🎯 Skill level: easy, medium or challenging?</li>
-      </ul>
-      <p>For example: <em>"I have chicken, tomatoes, and 30 minutes"</em> or <em>"Suggest an easy Indian recipe."</em></p>`;
+      </ul >
+    <p>For example: <em>"I have chicken, tomatoes, and 30 minutes"</em> or <em>"Suggest an easy Indian recipe."</em></p>`;
   }
 
   // Vegetarian/vegan
   if (q.includes('vegetarian') || q.includes('vegan') || q.includes('plant-based')) {
-    return `<p>🌱 <strong>Vegetarian/Vegan Options:</strong></p>
+    return `< p >🌱 <strong>Vegetarian/Vegan Options:</strong></p >
       <ul>
         <li><strong>Indian:</strong> Palak Paneer (veg), Dal Makhani (veg)</li>
         <li><strong>Chinese:</strong> Mapo Tofu (use vegetable stock)</li>
@@ -3742,7 +3753,7 @@ function generateAIResponse(msg) {
 
   // Baking help
   if (q.includes('bak') || q.includes('pastry') || q.includes('bread') || q.includes('cake') || q.includes('cookie')) {
-    return `<p>🍞 <strong>Baking Essentials to Know:</strong></p>
+    return `< p >🍞 <strong>Baking Essentials to Know:</strong></p >
       <ul>
         <li><strong>Always measure by weight</strong> (not volume) for accuracy</li>
         <li><strong>Room temperature butter and eggs</strong> emulsify better</li>
@@ -3755,7 +3766,7 @@ function generateAIResponse(msg) {
 
   // Spicy food
   if (q.includes('spicy') || q.includes('chili') || q.includes('heat')) {
-    return `<p>🌶️ <strong>Spice & Heat Control:</strong></p>
+    return `< p >🌶️ <strong>Spice & Heat Control:</strong></p >
       <ul>
         <li><strong>Build heat gradually</strong> — add chili incrementally and taste</li>
         <li><strong>Capsaicin is fat-soluble</strong> — dairy (yogurt, cream) neutralizes heat better than water</li>
@@ -3767,7 +3778,7 @@ function generateAIResponse(msg) {
   }
 
   // General fallback
-  return `<p>${AI_RESPONSES.general[Math.floor(Math.random() * AI_RESPONSES.general.length)]}</p>
+  return `< p > ${AI_RESPONSES.general[Math.floor(Math.random() * AI_RESPONSES.general.length)]}</p >
     <p>Could you be more specific? I can help you with:</p>
     <ul>
       <li>🍛 Recipes from any of our 9 cuisines</li>
@@ -3908,7 +3919,7 @@ function renderVideos(filter) {
   const ytSearchBase = 'https://www.youtube.com/results?search_query=';
   const ytWatchBase = 'https://www.youtube.com/watch?v=';
   grid.innerHTML = list.map((v, idx) => `
-    <div class="video-card" id="vcard-${idx}">
+    < div class="video-card" id = "vcard-${idx}" >
       <div class="video-thumb-wrapper" id="vthumb-${idx}" onclick="playVideo(${idx})" style="cursor:pointer">
         <img
           src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg"
@@ -3943,7 +3954,7 @@ function renderVideos(filter) {
           <a class="vid-search-link" href="${ytSearchBase}${encodeURIComponent(v.searchQuery || v.title)}" target="_blank" rel="noopener" title="Search on YouTube">🔍</a>
         </div>
       </div>
-    </div>`).join('');
+    </div > `).join('');
 }
 
 function playVideo(idx) {
@@ -3951,9 +3962,9 @@ function playVideo(idx) {
   const list = filter === 'all' ? VIDEOS : VIDEOS.filter(v => v.cuisine === filter);
   const v = list[idx];
   if (!v) return;
-  const wrapper = document.getElementById(`vthumb-${idx}`);
-  const overlay = document.getElementById(`voverlay-${idx}`);
-  const card = document.getElementById(`vcard-${idx}`);
+  const wrapper = document.getElementById(`vthumb - ${idx} `);
+  const overlay = document.getElementById(`voverlay - ${idx} `);
+  const card = document.getElementById(`vcard - ${idx} `);
   if (!wrapper) return;
 
   // Stop any other playing iframe in the grid

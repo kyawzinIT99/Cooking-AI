@@ -3549,10 +3549,21 @@ circle {
     left: 0;
     right: 0;
     background: rgba(10, 10, 15, 0.98);
-    padding: 20px;
-    gap: 4px;
+    padding: 10px 20px;
+    gap: 0;
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(20px);
+  }
+
+  .nav-links.open a {
+    padding: 14px 14px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-links.open li:last-child a {
+    border-bottom: none;
   }
 
   .cuisines-grid {
@@ -6943,12 +6954,11 @@ body {
 
   /* ── Nav ── */
   .nav-links.open {
-    padding: 12px;
-    gap: 2px;
+    padding: 8px 16px;
   }
 
   .nav-links.open a {
-    padding: 10px 14px;
+    padding: 12px 14px;
     font-size: 0.9rem;
   }
 
