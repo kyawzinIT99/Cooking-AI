@@ -31,7 +31,7 @@ async def chat_proxy(request: Request):
     
     body = await request.body()
     
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=30.0) as client:
         proxy_req = client.build_request(
             method="POST",
             url="https://api.openai.com/v1/chat/completions",
@@ -42,12 +42,11 @@ async def chat_proxy(request: Request):
             content=body
         )
         try:
-            resp = await client.send(proxy_req, timeout=30.0)
-            # Remove encoding headers that might conflict
-            headers = dict(resp.headers)
-            headers.pop("content-encoding", None)
-            headers.pop("content-length", None)
-            return Response(content=resp.content, status_code=resp.status_code, headers=headers)
+            resp = await client.send(proxy_req)
+            safe_headers = {}
+            if "content-type" in resp.headers:
+                safe_headers["content-type"] = resp.headers["content-type"]
+            return Response(content=resp.content, status_code=resp.status_code, headers=safe_headers)
         except Exception as e:
             return Response(content=f'{{"error": {{"message": "{str(e)}"}}}}', status_code=500, media_type="application/json")
 
