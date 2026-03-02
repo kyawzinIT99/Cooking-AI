@@ -9,6 +9,7 @@
 ══════════════════════════════════════ */
 const OPENAI_KEY_STORAGE = 'culinaryai_openai_key';
 const OPENAI_API = 'https://api.openai.com/v1/chat/completions';
+const PROXY_API = 'https://kyawzin-ccna--culinaryai-main.modal.run/api/chat';
 const OPENAI_MODEL = 'gpt-4o-mini';
 const LANG_STORAGE = 'culinaryai_lang';
 
@@ -2302,54 +2303,50 @@ async function generateAIDietPlan() {
   btn.disabled = true;
   btn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite">⟳</span> Generating with AI…';
 
-  if (localStorage.getItem(OPENAI_KEY_STORAGE)) {
-    try {
-      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-      const meta = DIET_TYPE_META[currentDietType];
-      const pool = getDietRecipePool();
-      const recipeNames = pool.map(r => `${r.name} (id:${r.id}, ${r.calories}kcal)`).join(', ');
-      const messages = [{
-        role: 'user',
-        content: `You are a registered dietitian creating a ${dietTarget} calorie/day 30-day ${meta.label} diet plan starting ${today}.
+  try {
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const meta = DIET_TYPE_META[currentDietType];
+    const pool = getDietRecipePool();
+    const recipeNames = pool.map(r => `${r.name} (id:${r.id}, ${r.calories}kcal)`).join(', ');
+    const messages = [{
+      role: 'user',
+      content: `You are a registered dietitian creating a ${dietTarget} calorie/day 30-day ${meta.label} diet plan starting ${today}.
 Diet type: ${meta.label} — ${meta.desc}.
 Available recipes: ${recipeNames}.
 Return ONLY a valid JSON array of exactly 30 objects with this schema (no other text):
 [{"day":1,"date":"Mon, Mar 3","lunchId":"pad-thai","dinnerId":"tom-yum","tip":"One actionable diet tip under 12 words"}]
 Use recipe IDs exactly as shown. Vary cuisines. Optimise strictly for the ${meta.label} diet type and ${dietTarget} kcal target.`
-      }];
-      // Use raw call (2500 tokens) — 30-day JSON needs more room than chat's 600
-      const aiText = await callOpenAIRaw(messages, 2500);
-      const jsonMatch = aiText.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        const aiDays = JSON.parse(jsonMatch[0]);
-        const today2 = new Date();
-        const breakfasts = DIET_BREAKFASTS[currentDietType] || DIET_BREAKFASTS.balanced;
-        dietPlan = aiDays.slice(0, 30).map((d, i) => {
-          const lunch = pool.find(r => r.id === d.lunchId) || pool[i % pool.length];
-          const dinner = pool.find(r => r.id === d.dinnerId) || pool[(i + 5) % pool.length];
-          const breakfast = breakfasts[i % breakfasts.length];
-          const snack = { name: 'Fruit + Nuts', cal: 160, emoji: '🍎' };
-          const date2 = new Date(today2); date2.setDate(today2.getDate() + i);
-          return {
-            day: i + 1,
-            date: date2.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-            breakfast, lunch, dinner, snack,
-            total: breakfast.cal + lunch.calories + dinner.calories + snack.cal,
-            tip: d.tip || DAILY_TIPS[i % DAILY_TIPS.length],
-            aiGenerated: true,
-          };
-        });
-        localStorage.setItem('culinaryai_diet_plan', JSON.stringify(dietPlan));
-        renderDietPlan();
-        showToast(`✨ AI-optimised ${meta.label} diet plan ready!`);
-      } else {
-        throw new Error('No JSON in response');
-      }
-    } catch (err) {
-      showToast('AI plan failed — generating smart local plan instead');
-      generateLocalDietPlan();
+    }];
+    // Use raw call (2500 tokens) — 30-day JSON needs more room than chat's 600
+    const aiText = await callOpenAIRaw(messages, 2500);
+    const jsonMatch = aiText.match(/\[[\s\S]*\]/);
+    if (jsonMatch) {
+      const aiDays = JSON.parse(jsonMatch[0]);
+      const today2 = new Date();
+      const breakfasts = DIET_BREAKFASTS[currentDietType] || DIET_BREAKFASTS.balanced;
+      dietPlan = aiDays.slice(0, 30).map((d, i) => {
+        const lunch = pool.find(r => r.id === d.lunchId) || pool[i % pool.length];
+        const dinner = pool.find(r => r.id === d.dinnerId) || pool[(i + 5) % pool.length];
+        const breakfast = breakfasts[i % breakfasts.length];
+        const snack = { name: 'Fruit + Nuts', cal: 160, emoji: '🍎' };
+        const date2 = new Date(today2); date2.setDate(today2.getDate() + i);
+        return {
+          day: i + 1,
+          date: date2.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+          breakfast, lunch, dinner, snack,
+          total: breakfast.cal + lunch.calories + dinner.calories + snack.cal,
+          tip: d.tip || DAILY_TIPS[i % DAILY_TIPS.length],
+          aiGenerated: true,
+        };
+      });
+      localStorage.setItem('culinaryai_diet_plan', JSON.stringify(dietPlan));
+      renderDietPlan();
+      showToast(`✨ AI-optimised ${meta.label} diet plan ready!`);
+    } else {
+      throw new Error('No JSON in response');
     }
-  } else {
+  } catch (err) {
+    showToast('AI plan failed — generating smart local plan instead');
     generateLocalDietPlan();
   }
 
@@ -3041,15 +3038,6 @@ async function adaptRecipeForDiet(recipeId, dietType, btn) {
 
   panel.innerHTML = `<div class="adapt-loading"><span style="display:inline-block;animation:spin 0.8s linear infinite">⟳</span> Adapting for ${meta.label} diet…</div>`;
 
-  if (!window._openAIKey && !localStorage.getItem(OPENAI_KEY_STORAGE)) {
-    // Provide a generic mock response for demonstration if no API key is present
-    setTimeout(() => {
-      const mockResult = `**Adapted Ingredients:**\n- Substituted high-carb/non-compliant ingredients with ${meta.label}-friendly alternatives.\n- Kept core spices and proteins intact.\n\n**Adapted Steps:**\n1. Prepare ingredients according to ${meta.label} guidelines.\n2. Proceed with standard cooking methods, adjusting heat for substitute oils/bases if necessary.\n3. Serve and enjoy your ${meta.label}-compliant ${r.name}!\n\n**Why This Works for ${meta.label}:**\nThis adaptation removes restricted ingredients while maintaining the authentic flavor profile of the dish using approved ${meta.label} substitutes.`;
-      panel.innerHTML = `<div class="adapt-output">${formatOpenAIResponse(mockResult)}</div>`;
-    }, 1500);
-    return;
-  }
-
   try {
     const ingredients = r.ingredients.join(', ');
     const steps = r.steps.map((s, i) => `${i + 1}. ${s} `).join('\n');
@@ -3384,27 +3372,19 @@ async function sendMessage() {
   showTyping();
 
   const apiKey = localStorage.getItem(OPENAI_KEY_STORAGE);
-  if (apiKey) {
-    try {
-      updateChatStatus('thinking');
-      const aiText = await callOpenAI(msg, apiKey);
-      removeTyping();
-      updateChatStatus('online');
-      appendAIMessage(formatOpenAIResponse(aiText));
-    } catch (err) {
-      removeTyping();
-      updateChatStatus('offline');
-      // Fallback to built-in responses on API error
-      const fallback = generateAIResponse(msg);
-      appendAIMessage(`< p style = "font-size:0.8rem;color:var(--text-muted);margin-bottom:8px" >⚠️ OpenAI unavailable — using built-in chef knowledge.</p > ${fallback} `);
-      console.warn('OpenAI error:', err.message);
-    }
-  } else {
-    // No key — use built-in AI
-    await delay(700 + Math.random() * 500);
+  try {
+    updateChatStatus('thinking');
+    const aiText = await callOpenAI(msg, apiKey);
     removeTyping();
-    const response = generateAIResponse(msg);
-    appendAIMessage(response);
+    updateChatStatus('online');
+    appendAIMessage(formatOpenAIResponse(aiText));
+  } catch (err) {
+    removeTyping();
+    updateChatStatus('offline');
+    // Fallback to built-in responses on API error
+    const fallback = generateAIResponse(msg);
+    appendAIMessage(`<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">⚠️ AI API unavailable — using fallback chef knowledge.</p>${fallback}`);
+    console.warn('OpenAI error:', err.message);
   }
 }
 
@@ -3427,12 +3407,13 @@ async function callOpenAI(userMessage, apiKey) {
     ]
   };
 
-  const res = await fetch(OPENAI_API, {
+  const url = apiKey ? OPENAI_API : PROXY_API;
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKey) Object.assign(headers, { 'Authorization': `Bearer ${apiKey}` });
+
+  const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey} `
-    },
+    headers,
     body: JSON.stringify(body)
   });
 
@@ -3457,13 +3438,13 @@ async function callOpenAI(userMessage, apiKey) {
  */
 async function callOpenAIRaw(messages, maxTokens = 2500) {
   const apiKey = localStorage.getItem(OPENAI_KEY_STORAGE);
-  if (!apiKey) throw new Error('No API key');
-  const res = await fetch(OPENAI_API, {
+  const url = apiKey ? OPENAI_API : PROXY_API;
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKey) Object.assign(headers, { 'Authorization': `Bearer ${apiKey}` });
+
+  const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey} `
-    },
+    headers,
     body: JSON.stringify({
       model: OPENAI_MODEL,
       max_tokens: maxTokens,
