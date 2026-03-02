@@ -1814,17 +1814,30 @@ document.addEventListener('DOMContentLoaded', () => {
     genericInput.value = "Show me luxury recipes";
   }
 
-  initLanguage();
-  initOpenAI();
-  initCuisines();
-  initRecipes();
-  initBakery();
-  initLuxury();
-  initVideos();
-  initTools();
-  initBMREvents();
-  initChatDraggable();
+  renderRecipes();
+  renderLuxuryGrid();
+  renderBakeryGrid();
+  renderMyanmarCards();
+  renderSubstitutions('');
+  renderVideos('all');
+  setupNavScroll();
+  setupSearchSuggestions();
+  initTimerDisplay();
   animateOnScroll();
+  startDemoTypingEffect();
+  initOpenAI();
+  initLanguage();
+  initMealLog();
+  initDietPlan();
+
+  if (typeof initCuisines === 'function') initCuisines();
+  if (typeof initRecipes === 'function') initRecipes();
+  if (typeof initBakery === 'function') initBakery();
+  if (typeof initLuxury === 'function') initLuxury();
+  if (typeof initVideos === 'function') initVideos();
+  if (typeof initTools === 'function') initTools();
+  if (typeof initBMREvents === 'function') initBMREvents();
+  if (typeof initChatDraggable === 'function') initChatDraggable();
 });
 
 /* ══════════════════════════════════════
